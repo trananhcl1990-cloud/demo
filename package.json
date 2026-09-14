@@ -1,0 +1,19 @@
+{
+  "name": "caloha-essential-oils",
+  "version": "1.0.0",
+  "description": "CALOHA Essential Oils - Website Tinh Dầu Thiên Nhiên & Dược Liệu Hữu Cơ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "essential-oils",
+    "caloha",
+    "aromatherapy",
+    "ecommerce",
+    "organic"
+  ],
+  "author": "CALOHA",
+  "license": "ISC"
+}

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giới Thiệu CALOHA Natural Health | Sứ Mệnh Tinh Dầu Thiên Nhiên</title>
+  <meta name="description" content="Khám phá câu chuyện thương hiệu CALOHA Natural Health - Sứ mệnh chưng cất tinh dầu thiên nhiên nguyên chất đạt chuẩn kiểm định sắc ký khí GC-MS quốc tế.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Notification Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-notice">
+        🌿 <span>ƯU ĐÃI ĐẶC BIỆT:</span> Miễn phí giao hàng toàn quốc cho đơn hàng từ 500.000đ • Cam kết 100% nguyên chất hữu cơ
+      </div>
+      <div class="top-bar-contact">
+        <a href="tel:19006868">📞 Hotline: <strong>0988.234.567</strong></a>
+        <a href="contact.html">📍 Hệ thống Showroom</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <!-- Logo -->
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <img src="assets/logo.jpg" alt="CALOHA Natural health Logo" class="brand-logo-img">
+        <div class="brand-logo-text">
+          <span class="brand-title">CALOHA</span>
+          <span class="brand-subtitle">Natural Health</span>
+        </div>
+      </a>
+
+      <!-- Nav Menu -->
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="index.html">Trang Chủ</a></li>
+          <li><a class="nav-link" href="catalog.html">Danh Mục Sản Phẩm</a></li>
+          <li><a class="nav-link active" href="about.html">Giới Thiệu</a></li>
+          <li><a class="nav-link" href="articles.html">Kiến Thức & Cẩm Nang</a></li>
+          <li><a class="nav-link" href="contact.html">Liên Hệ</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Live Search -->
+        <div class="search-box-wrap">
+          <i data-lucide="search" class="search-icon-btn"></i>
+          <input type="text" id="header-search-input" class="search-input" placeholder="Tìm tinh dầu, công dụng..." autocomplete="off">
+          <div id="search-dropdown" class="live-search-dropdown"></div>
+        </div>
+
+        <!-- Cart Button -->
+        <button class="icon-btn" id="open-cart-btn" aria-label="Giỏ hàng">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+
+        <!-- Mobile Toggle -->
+        <button class="icon-btn mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-drawer" style="display:none;">
+    <div style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:998;" onclick="app.closeMobileMenu()"></div>
+    <div style="position:fixed; top:0; right:0; width:280px; height:100%; background:#fff; z-index:999; padding:24px; display:flex; flex-direction:column; box-shadow:var(--shadow-lg);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h4 style="margin:0; color:var(--primary);">Menu CALOHA</h4>
+        <button id="close-mobile-menu" style="background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:1rem; font-weight:600;">
+        <a href="index.html">Trang Chủ</a>
+        <a href="catalog.html">Danh Mục Sản Phẩm (62 Loại)</a>
+        <a href="about.html" style="color:var(--accent);">Giới Thiệu CALOHA</a>
+        <a href="articles.html">Kiến Thức & Cẩm Nang</a>
+        <a href="contact.html">Liên Hệ & Bản Đồ</a>
+      </div>
+      <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border-light); font-size:0.85rem; color:var(--text-muted);">
+        Hotline: 0988.234.567<br>Email: contact@caloha.vn
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section class="page-view" style="display:block;">
+      <div style="background:var(--primary); color:#fff; padding:60px 0; text-align:center;">
+        <div class="container" style="max-width:800px;">
+          <span style="color:var(--herbal-light); font-size:0.85rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;">Về Chúng Tôi</span>
+          <h1 style="font-family:var(--font-heading); font-size:2.8rem; margin:10px 0 16px 0;">Công Ty Cổ Phần CALOHA Natural Health</h1>
+          <p style="color:#d1ded8; font-size:1.05rem; line-height:1.7;">
+            Sứ mệnh mang hơi thở tinh khiết của thảo mộc tự nhiên vào từng nếp nhà, đánh thức năng lượng an lành và chữa lành thân tâm bằng liệu pháp mùi hương chuẩn khoa học.
+          </p>
+        </div>
+      </div>
+
+      <!-- Core Values & Mission Grid -->
+      <div class="section section-light">
+        <div class="container">
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:30px; margin-bottom:60px;">
+            <div style="background:var(--mint-bg); padding:36px 30px; border-radius:var(--radius-md); border-top:4px solid var(--primary);">
+              <div style="font-size:2rem; margin-bottom:14px;">🎯</div>
+              <h3 style="font-family:var(--font-heading); font-size:1.4rem; color:var(--primary); margin-bottom:12px;">Tầm Nhìn Chiến Lược</h3>
+              <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+                Trở thành thương hiệu tiên phong tại Việt Nam và Đông Nam Á trong việc nghiên cứu, chuẩn hóa và cung cấp tinh dầu thiên nhiên trị liệu đạt chuẩn sắc ký khí quốc tế GC-MS.
+              </p>
+            </div>
+            <div style="background:var(--mint-bg); padding:36px 30px; border-radius:var(--radius-md); border-top:4px solid var(--accent);">
+              <div style="font-size:2rem; margin-bottom:14px;">🌱</div>
+              <h3 style="font-family:var(--font-heading); font-size:1.4rem; color:var(--primary); margin-bottom:12px;">Sứ Mệnh Khách Hàng</h3>
+              <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+                Đồng hành cùng mọi gia đình tạo dựng lối sống xanh, thay thế hóa chất tẩy rửa thơm độc hại bằng liệu pháp tinh dầu tinh khiết an toàn cho sức khỏe và môi trường.
+              </p>
+            </div>
+            <div style="background:var(--mint-bg); padding:36px 30px; border-radius:var(--radius-md); border-top:4px solid var(--herbal-light);">
+              <div style="font-size:2rem; margin-bottom:14px;">💎</div>
+              <h3 style="font-family:var(--font-heading); font-size:1.4rem; color:var(--primary); margin-bottom:12px;">Giá Trị Cốt Lõi</h3>
+              <p style="font-size:0.92rem; color:var(--text-muted); line-height:1.7;">
+                <strong>Minh Bạch - Tinh Khiết - Trách Nhiệm:</strong> Cam kết 100% nguyên chất không pha loãng, bảo vệ hệ sinh thái và tôn trọng công sức của người nông dân trồng thảo dược.
+              </p>
+            </div>
+          </div>
+
+          <!-- Quality Commitments -->
+          <div class="story-grid">
+            <div class="story-content">
+              <span class="section-tag">Tiêu Chuẩn Kiểm Định</span>
+              <h2>Hồ Sơ COA & Phân Tích Sắc Ký Khí GC-MS Độc Lập</h2>
+              <p>
+                Khác biệt lớn nhất của CALOHA nằm ở việc <strong>mọi lô sản phẩm đều có mã kiểm nghiệm rõ ràng</strong>. Phương pháp kiểm định GC-MS (Gas Chromatography-Mass Spectrometry) giúp phân tách và định danh chính xác từng hợp chất hóa học thực vật có trong tinh dầu (như Linalool, Cineole, Limonene...), đảm bảo không có bất kỳ tạp chất hóa dầu hay dung môi nhân tạo nào.
+              </p>
+              <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; align-items:center; gap:10px; font-weight:600; color:var(--primary);">
+                  <i data-lucide="shield-check" style="color:var(--accent);"></i> Không chứa chất tạo mùi hương nhân tạo (Synthetic Fragrance)
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-weight:600; color:var(--primary);">
+                  <i data-lucide="shield-check" style="color:var(--accent);"></i> Không chứa kim loại nặng, thuốc bảo vệ thực vật
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-weight:600; color:var(--primary);">
+                  <i data-lucide="shield-check" style="color:var(--accent);"></i> Đạt tiêu chuẩn kiểm nghiệm an toàn của Viện Kiểm Nghiệm Thuốc & Mỹ Phẩm
+                </div>
+              </div>
+
+              <div style="margin-top:30px;">
+                <a href="catalog.html" class="btn btn-primary">
+                  Khám Phá Toàn Bộ 62 Sản Phẩm <i data-lucide="arrow-right" style="width:16px;"></i>
+                </a>
+              </div>
+            </div>
+            <div>
+              <img src="assets/cat_herbal.jpg" alt="Thảo mộc tự nhiên CALOHA" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); width:100%;">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div>
+          <div class="footer-brand-logo">
+            <img src="assets/logo.jpg" alt="CALOHA Logo">
+            <div>
+              <h3 style="margin-bottom:0;">CALOHA</h3>
+              <span style="font-size:0.75rem; letter-spacing:1.5px; color:var(--herbal-light); text-transform:uppercase;">Natural Health</span>
+            </div>
+          </div>
+          <p class="footer-about-text">
+            <strong>Công Ty Cổ Phần Dược Liệu CALOHA</strong> chuyên cung cấp các dòng tinh dầu thiên nhiên nguyên chất, tinh dầu gỗ thơm, thảo dược trị liệu và dầu nền hữu cơ ép lạnh chất lượng cao cấp.
+          </p>
+          <div class="footer-social-links">
+            <a href="https://facebook.com" target="_blank" class="social-link-btn" title="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" class="social-link-btn" title="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="https://shopee.vn" target="_blank" class="social-link-btn" title="Shopee Mall"><i data-lucide="shopping-bag"></i></a>
+            <a href="https://tiktok.com" target="_blank" class="social-link-btn" title="TikTok Shop"><i data-lucide="video"></i></a>
+          </div>
+        </div>
+
+        <!-- Catalog Links -->
+        <div class="footer-col">
+          <h4>Danh Mục Tinh Dầu</h4>
+          <ul class="footer-links-list">
+            <li><a href="catalog.html">Hương Cam Chanh (Citrus)</a></li>
+            <li><a href="catalog.html">Hương Gỗ & Nhựa Thơm (Woody)</a></li>
+            <li><a href="catalog.html">Hương Thảo Mộc (Herbal)</a></li>
+            <li><a href="catalog.html">Hương Hoa Thanh Tao (Floral)</a></li>
+            <li><a href="catalog.html">Dầu Nền Hữu Cơ (Carrier Oils)</a></li>
+            <li><a href="articles.html">Bài Viết So Sánh Sản Phẩm</a></li>
+          </ul>
+        </div>
+
+        <!-- Customer Policies -->
+        <div class="footer-col">
+          <h4>Chính Sách Hỗ Trợ</h4>
+          <ul class="footer-links-list">
+            <li><a onclick="app.showPolicyModal('exchange')">Chính Sách Đổi Trả (7 Ngày)</a></li>
+            <li><a onclick="app.showPolicyModal('shipping')">Chính Sách Giao Hàng & Miễn Phí</a></li>
+            <li><a onclick="app.showPolicyModal('privacy')">Chính Sách Bảo Mật Thông Tin</a></li>
+            <li><a onclick="app.showPolicyModal('guide')">Hướng Dẫn Mua Hàng & Thanh Toán</a></li>
+            <li><a href="articles.html">Cẩm Nang Pha Loãng An Toàn</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="footer-col">
+          <h4>Thông Tin Liên Hệ</h4>
+          <div class="footer-contact-item">
+            <i data-lucide="map-pin" style="color:var(--herbal-light); flex-shrink:0;"></i>
+            <span>168 Nguyễn Đình Chiểu, Phường Võ Thị Sáu, Quận 3, TP.HCM</span>
+          </div>
+          <div class="footer-contact-item">
+            <i data-lucide="phone" style="color:var(--herbal-light); flex-shrink:0;"></i>
+            <span>0988.234.567 (8:00 - 21:30 hàng ngày)</span>
+          </div>
+          <div class="footer-contact-item">
+            <i data-lucide="mail" style="color:var(--herbal-light); flex-shrink:0;"></i>
+            <span>contact@caloha.vn</span>
+          </div>
+          <div class="footer-contact-item">
+            <i data-lucide="shield-check" style="color:var(--herbal-light); flex-shrink:0;"></i>
+            <span>Đầy đủ chứng nhận kiểm nghiệm COA & GC-MS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <div>
+            © 2026 CALOHA - Natural Health. All Rights Reserved. Xây dựng theo tiêu chuẩn chất lượng tinh dầu thiên nhiên cao cấp.
+            <a onclick="app.openAdminLoginModal()" style="color:#71877e; margin-left:10px; cursor:pointer; opacity:0.6; display:inline-flex; align-items:center;" title="Cổng đăng nhập Quản Trị Viên">
+              <i data-lucide="lock" style="width:12px; height:12px;"></i>
+            </a>
+          </div>
+          <div style="display:flex; gap:16px;">
+            <span>Màu chủ đạo: Trắng & Xanh Lá</span>
+            <span>Hotline: 0988.234.567</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer-backdrop" class="cart-drawer-backdrop" onclick="app.closeCart()"></div>
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h3>Giỏ Hàng Của Bạn (<span id="drawer-item-count">0</span>)</h3>
+      <button class="icon-btn" onclick="app.closeCart()">&times;</button>
+    </div>
+    <div class="cart-items-list" id="cart-items-container"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-summary-row">
+        <span>Tạm tính:</span>
+        <span id="cart-subtotal-display">0đ</span>
+      </div>
+      <div class="cart-summary-row" style="color:var(--accent);">
+        <span>Phí vận chuyển:</span>
+        <span id="cart-shipping-display">Miễn phí</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Tổng cộng:</span>
+        <span id="cart-total-display">0đ</span>
+      </div>
+      <button class="btn btn-primary" style="width:100%;" onclick="app.openCheckout()">
+        Tiến Hành Đặt Hàng Ngay <i data-lucide="arrow-right" style="width:18px;"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Checkout Modal -->
+  <div id="checkout-modal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:560px;">
+      <button class="modal-close-btn" onclick="app.closeCheckout()">&times;</button>
+      <div style="margin-bottom:20px;">
+        <span class="pill-badge pill-organic">Đặt Hàng Nhanh</span>
+        <h2 style="font-family:var(--font-heading); font-size:1.6rem; color:var(--primary); margin:8px 0 0 0;">Thông Tin Giao Nhận CALOHA</h2>
+      </div>
+      <form id="checkout-form" onsubmit="app.handleOrderSubmit(event)">
+        <div class="form-group">
+          <label>Họ và tên người nhận *</label>
+          <input type="text" id="order-name" class="form-control" required placeholder="Ví dụ: Trần Phương Nga">
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại nhận hàng *</label>
+          <input type="tel" id="order-phone" class="form-control" required placeholder="Ví dụ: 0988 123 456">
+        </div>
+        <div class="form-group">
+          <label>Địa chỉ giao nhận chi tiết *</label>
+          <input type="text" id="order-address" class="form-control" required placeholder="Số nhà, tên đường, Phường/Xã, Quận/Huyện, Tỉnh/TP">
+        </div>
+        <div class="form-group">
+          <label>Ghi chú đơn hàng (nếu có)</label>
+          <textarea id="order-note" class="form-control" rows="2" placeholder="Thời gian nhận hàng thuận tiện..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Phương thức thanh toán:</label>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.88rem; cursor:pointer;">
+              <input type="radio" name="order-payment" value="cod" checked> 💵 Thanh toán khi nhận hàng (COD)
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.88rem; cursor:pointer;">
+              <input type="radio" name="order-payment" value="banking"> 💳 Chuyển khoản ngân hàng VietQR
+            </label>
+          </div>
+        </div>
+        <div style="background:var(--mint-bg); padding:14px; border-radius:var(--radius-sm); margin:18px 0; font-size:0.9rem; display:flex; justify-content:space-between;">
+          <span>Tổng tiền thanh toán:</span>
+          <strong id="checkout-total-val" style="color:var(--primary); font-size:1.1rem;">0đ</strong>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Xác Nhận Đặt Hàng Ngay</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Article Reader Modal -->
+  <div id="article-reader-modal" class="modal-backdrop">
+    <div class="modal-window" style="max-width:700px; padding:36px;">
+      <button class="modal-close-btn" onclick="app.closeArticleModal()">&times;</button>
+      <div id="article-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="admin-login-modal" class="cms-modal-backdrop">
+    <div class="cms-modal-window" style="max-width:440px; padding:32px;">
+      <button class="modal-close-btn" onclick="app.closeAdminLoginModal()">&times;</button>
+      <div style="text-align:center; margin-bottom:24px;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--mint-bg); color:var(--primary); display:inline-flex; align-items:center; justify-content:center; margin-bottom:12px;">
+          <i data-lucide="shield-check" style="width:28px; height:28px;"></i>
+        </div>
+        <h2 style="font-family:var(--font-heading); font-size:1.6rem; color:var(--primary); margin:0 0 6px 0;">Đăng Nhập Quản Trị</h2>
+        <p style="color:var(--text-muted); font-size:0.88rem; margin:0;">Khu vực bảo mật dành riêng cho ban quản trị CALOHA.</p>
+      </div>
+      <div id="admin-login-error" style="display:none; background:#fef2f2; color:#b91c1c; padding:10px 14px; border-radius:var(--radius-sm); font-size:0.85rem; margin-bottom:16px; border:1px solid #fca5a5;">
+        <i data-lucide="alert-circle" style="width:14px; vertical-align:middle; margin-right:4px;"></i>
+        <span id="admin-login-error-text">Tên đăng nhập hoặc mật khẩu không chính xác!</span>
+      </div>
+      <form id="admin-login-form" onsubmit="app.handleAdminLogin(event)">
+        <div class="form-group">
+          <label>Tài Khoản Quản Trị *</label>
+          <input type="text" id="admin-user-input" class="form-control" required placeholder="Tên đăng nhập (vd: admin)">
+        </div>
+        <div class="form-group">
+          <label>Mật Khẩu *</label>
+          <input type="password" id="admin-pass-input" class="form-control" required placeholder="Nhập mật khẩu quản trị">
+        </div>
+        <div style="margin-top:24px;">
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+            <i data-lucide="lock" style="width:16px;"></i> Xác Nhận Đăng Nhập
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
