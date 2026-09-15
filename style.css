@@ -2601,3 +2601,211 @@ a {
   }
 }
 
+/* ==================== FLOATING CONTACT & QUICK ACTIONS TOOLBAR ==================== */
+.floating-contact-bar {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+}
+
+.fc-btn {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, opacity 0.25s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 50%;
+}
+
+.fc-btn:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+/* 1. Hotline Phone Button (Red Circle with pulse waves) */
+.fc-btn-phone {
+  background: #e52424;
+  color: #ffffff;
+}
+
+.fc-phone-icon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: phoneVibrate 2.6s infinite ease-in-out;
+}
+
+.fc-phone-wave, .fc-phone-wave-2 {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(229, 36, 36, 0.65);
+  pointer-events: none;
+  animation: phonePulse 1.8s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.fc-phone-wave-2 {
+  animation-delay: 0.6s;
+}
+
+@keyframes phonePulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes phoneVibrate {
+  0%, 100% { transform: rotate(0deg); }
+  2%, 6%, 10% { transform: rotate(-14deg); }
+  4%, 8%, 12% { transform: rotate(14deg); }
+  14% { transform: rotate(0deg); }
+}
+
+/* 2. Zalo Button (Blue Circle) */
+.fc-btn-zalo {
+  background: #0068ff;
+  color: #ffffff;
+}
+
+.fc-btn-zalo svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+/* 3. Messenger Button (Gradient Circle with tail) */
+.fc-btn-messenger {
+  background: transparent;
+  box-shadow: none;
+}
+
+.fc-btn-messenger:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: none;
+}
+
+.fc-messenger-bubble {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.25s ease;
+}
+
+.fc-btn-messenger:hover .fc-messenger-bubble {
+  filter: drop-shadow(0 8px 22px rgba(160, 51, 255, 0.4));
+}
+
+/* 4. Scroll to Top Button (Green Rounded Square) */
+.fc-btn-top {
+  border-radius: 10px !important;
+  background: #5cb838;
+  color: #ffffff;
+}
+
+.fc-btn-top svg {
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s ease;
+}
+
+.fc-btn-top:hover svg {
+  transform: translateY(-2px);
+}
+
+/* Tooltip on the left side of button */
+.fc-tooltip {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%) translateX(8px);
+  background: rgba(13, 56, 41, 0.94);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  font-family: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+
+.fc-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(13, 56, 41, 0.94);
+}
+
+.fc-btn:hover .fc-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Responsive adjustment */
+@media (max-width: 580px) {
+  .floating-contact-bar {
+    bottom: 20px;
+    right: 16px;
+    gap: 10px;
+  }
+  .fc-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .fc-messenger-bubble {
+    width: 44px;
+    height: 44px;
+  }
+  .fc-btn-zalo svg {
+    width: 25px;
+    height: 25px;
+  }
+  .fc-btn-top svg {
+    width: 22px;
+    height: 22px;
+  }
+  .fc-tooltip {
+    display: none;
+  }
+}
+
+
