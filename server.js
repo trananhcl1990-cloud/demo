@@ -37,6 +37,8 @@ const server = http.createServer((req, res) => {
     reqPath = '/checkout.html';
   } else if (reqPath === '/orders' || reqPath === '/orders/' || reqPath === '/don-hang' || reqPath === '/don-hang/') {
     reqPath = '/orders.html';
+  } else if (reqPath === '/admin' || reqPath === '/admin/' || reqPath === '/cms' || reqPath === '/cms/' || reqPath === '/quan-tri') {
+    reqPath = '/admin.html';
   }
 
   const filePath = path.join(PUBLIC_DIR, reqPath);

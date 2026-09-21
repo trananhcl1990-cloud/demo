@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CALOHA CMS & Quản Trị Hệ Thống | Content Management System</title>
+  <meta name="description" content="Hệ thống quản trị nội dung CMS CALOHA Natural Health - Quản lý sản phẩm tinh dầu, đơn hàng, bài viết cẩm nang và khách hàng tư vấn.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* CMS Dedicated Page Layout Extensions */
+    .admin-login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #072218 0%, #0d3829 50%, #1b4332 100%);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .admin-login-wrap::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(64,145,108,0.2) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+    .admin-login-card {
+      width: 100%;
+      max-width: 450px;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+    }
+    .admin-quick-demo-box {
+      margin-top: 20px;
+      padding: 14px;
+      background: #f0fdf4;
+      border: 1px dashed var(--accent);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="admin-cms-root">
+
+    <!-- ==================== 1. ADMIN LOGIN SCREEN ==================== -->
+    <div id="admin-login-screen" class="admin-login-wrap" style="display:none;">
+      <div class="admin-login-card">
+        <div style="text-align:center; margin-bottom:24px;">
+          <img src="assets/logo.jpg" alt="CALOHA Logo" style="width:68px; height:68px; border-radius:50%; margin:0 auto 12px; box-shadow:var(--shadow-md);">
+          <h2 style="font-family:var(--font-heading); color:var(--primary); font-size:1.6rem; margin:0;">CALOHA CMS</h2>
+          <p style="color:var(--text-muted); font-size:0.86rem; margin-top:4px;">Cổng Đăng Nhập Quản Trị Hệ Thống</p>
+        </div>
+
+        <div id="admin-login-error" style="display:none; padding:10px 14px; background:#fee2e2; border:1px solid #f87171; border-radius:var(--radius-sm); color:#b91c1c; font-size:0.82rem; margin-bottom:18px;">
+          <span id="admin-login-error-text">Tên đăng nhập hoặc mật khẩu không chính xác!</span>
+        </div>
+
+        <form id="admin-login-form" onsubmit="app.handleAdminLogin(event)">
+          <div class="form-group" style="margin-bottom:16px;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px;">
+              Tên tài khoản quản trị:
+            </label>
+            <input type="text" id="admin-user-input" class="form-control" placeholder="Tài khoản (admin)" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label style="display:block; font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px;">
+              Mật khẩu truy cập:
+            </label>
+            <input type="password" id="admin-pass-input" class="form-control" placeholder="Mật khẩu" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px;">
+            <i data-lucide="lock" style="width:18px; margin-right:8px;"></i> ĐĂNG NHẬP HỆ THỐNG
+          </button>
+        </form>
+
+        <!-- Quick 1-Click Demo Login -->
+        <div class="admin-quick-demo-box">
+          <div style="font-size:0.8rem; color:var(--primary); font-weight:600; margin-bottom:6px;">
+            ⚡ Trải nghiệm nhanh chế độ Demo Quản Trị:
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" style="width:100%; justify-content:center;" onclick="app.quickAdminLogin()">
+            Đăng Nhập Nhanh 1-Click (admin / 123456)
+          </button>
+        </div>
+
+        <div style="text-align:center; margin-top:20px;">
+          <a href="index.html" style="font-size:0.85rem; color:var(--accent); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+            <i data-lucide="arrow-left" style="width:14px;"></i> Quay lại website mua hàng
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 2. ADMIN DASHBOARD SCREEN ==================== -->
+    <div id="admin-dashboard-screen" style="display:none;">
+      
+      <!-- Top Banner Header -->
+      <div class="cms-banner">
+        <div class="container cms-banner-inner">
+          <div class="cms-title-area">
+            <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:20px; font-size:0.8rem; font-weight:600; margin-bottom:8px;">
+              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#4ade80;"></span> Hệ Thống Trực Tuyến Đang Hoạt Động (v2.4)
+            </div>
+            <h1>
+              <i data-lucide="layout-dashboard" style="color:var(--herbal-light);"></i> CALOHA CMS & Quản Trị Hệ Thống
+            </h1>
+            <p style="color:#d1ded8; margin:0; font-size:0.92rem;">
+              Quản lý danh mục 62 sản phẩm tinh dầu, kho bài viết cẩm nang, đơn đặt hàng trực tuyến và khách hàng cần tư vấn.
+            </p>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <a href="index.html" class="btn btn-outline-white btn-sm" style="text-decoration:none;">
+              <i data-lucide="external-link" style="width:16px;"></i> Xem Cửa Hàng
+            </a>
+            <button class="btn btn-primary btn-sm" style="background:var(--accent); border-color:var(--accent); color:#fff;" onclick="app.openNewProductModal()">
+              <i data-lucide="plus-circle" style="width:16px;"></i> + Thêm Sản Phẩm
+            </button>
+            <button class="btn btn-outline-white btn-sm" style="border-color:rgba(255,255,255,0.4);" onclick="app.adminLogout()">
+              <i data-lucide="log-out" style="width:16px;"></i> Đăng Xuất
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CMS Sticky Tab Navigation -->
+      <div class="cms-nav-tabs-wrap">
+        <div class="container">
+          <div class="cms-nav-tabs">
+            <button class="cms-tab-btn active" data-cms-tab="dashboard" onclick="app.switchCmsTab('dashboard', this)">
+              <i data-lucide="pie-chart" style="width:16px;"></i> Tổng Quan (Dashboard)
+            </button>
+            <button class="cms-tab-btn" data-cms-tab="products" onclick="app.switchCmsTab('products', this)">
+              <i data-lucide="package" style="width:16px;"></i> Quản Lý Sản Phẩm (<span id="cms-prod-count-badge">62</span>)
+            </button>
+            <button class="cms-tab-btn" data-cms-tab="orders" onclick="app.switchCmsTab('orders', this)">
+              <i data-lucide="shopping-cart" style="width:16px;"></i> Đơn Hàng Đã Đặt (<span id="cms-orders-count-badge">0</span>)
+            </button>
+            <button class="cms-tab-btn" data-cms-tab="articles" onclick="app.switchCmsTab('articles', this)">
+              <i data-lucide="file-text" style="width:16px;"></i> Quản Lý Bài Viết (<span id="cms-art-count-badge">6</span>)
+            </button>
+            <button class="cms-tab-btn" data-cms-tab="inquiries" onclick="app.switchCmsTab('inquiries', this)">
+              <i data-lucide="message-square" style="width:16px;"></i> Khách Đăng Ký Tư Vấn (<span id="cms-inquiries-count-badge">0</span>)
+            </button>
+            <button class="cms-tab-btn" data-cms-tab="settings" onclick="app.switchCmsTab('settings', this)">
+              <i data-lucide="sliders" style="width:16px;"></i> Cấu Hình Cửa Hàng
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CMS Main Content Container -->
+      <div class="section section-light" style="padding:32px 0 80px 0;">
+        <div class="container">
+
+          <!-- ==================== TAB 1: DASHBOARD OVERVIEW ==================== -->
+          <div id="cms-tab-view-dashboard" class="cms-tab-content">
+            <!-- 4 Stat Cards -->
+            <div class="cms-stats-grid">
+              <div class="cms-stat-card" style="cursor:pointer;" onclick="app.switchCmsTab('products')">
+                <div class="cms-stat-icon"><i data-lucide="package"></i></div>
+                <div>
+                  <div class="cms-stat-num" id="stat-total-products">62</div>
+                  <div class="cms-stat-label">Sản Phẩm Đang Bán</div>
+                </div>
+              </div>
+
+              <div class="cms-stat-card" style="cursor:pointer;" onclick="app.switchCmsTab('orders')">
+                <div class="cms-stat-icon" style="background:var(--mint-bg); color:var(--primary);"><i data-lucide="shopping-bag"></i></div>
+                <div>
+                  <div class="cms-stat-num" id="stat-total-orders">0</div>
+                  <div class="cms-stat-label">Đơn Hàng Trực Tuyến</div>
+                </div>
+              </div>
+
+              <div class="cms-stat-card" style="cursor:pointer;" onclick="app.switchCmsTab('inquiries')">
+                <div class="cms-stat-icon" style="background:#e0f2fe; color:#0284c7;"><i data-lucide="phone-incoming"></i></div>
+                <div>
+                  <div class="cms-stat-num" id="stat-total-inquiries">0</div>
+                  <div class="cms-stat-label">Khách Cần Tư Vấn</div>
+                </div>
+              </div>
+
+              <div class="cms-stat-card" style="cursor:pointer;" onclick="app.switchCmsTab('articles')">
+                <div class="cms-stat-icon" style="background:#fef3c7; color:#d97706;"><i data-lucide="book-open"></i></div>
+                <div>
+                  <div class="cms-stat-num" id="stat-total-articles">6</div>
+                  <div class="cms-stat-label">Bài Viết & Cẩm Nang</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Orders & Inquiries Split View -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:28px;">
+              
+              <!-- Recent Orders Box -->
+              <div class="cms-card">
+                <div class="cms-card-header">
+                  <div class="cms-card-title">
+                    <i data-lucide="clock" style="color:var(--accent);"></i> Đơn Hàng Mới Nhất
+                  </div>
+                  <button class="btn btn-outline btn-sm" onclick="app.switchCmsTab('orders')">Xem tất cả</button>
+                </div>
+                <div id="cms-dashboard-recent-orders" style="padding:16px;">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+
+              <!-- Recent Inquiries Box -->
+              <div class="cms-card">
+                <div class="cms-card-header">
+                  <div class="cms-card-title">
+                    <i data-lucide="user-check" style="color:var(--accent);"></i> Yêu Cầu Tư Vấn Mới
+                  </div>
+                  <button class="btn btn-outline btn-sm" onclick="app.switchCmsTab('inquiries')">Xem tất cả</button>
+                </div>
+                <div id="cms-dashboard-recent-inquiries" style="padding:16px;">
+                  <!-- Rendered by JS -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Quick Action Cards -->
+            <div style="margin-top:28px;" class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title"><i data-lucide="zap" style="color:var(--accent);"></i> Thao Tác Nhanh Hệ Thống</div>
+              </div>
+              <div style="padding:20px; display:flex; gap:14px; flex-wrap:wrap;">
+                <button class="btn btn-primary btn-sm" onclick="app.openNewProductModal()">
+                  <i data-lucide="plus-circle" style="width:16px; margin-right:6px;"></i> Thêm Sản Phẩm Mới
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="app.openNewArticleModal()">
+                  <i data-lucide="file-plus" style="width:16px; margin-right:6px;"></i> Đăng Bài Viết Cẩm Nang
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="app.switchCmsTab('orders')">
+                  <i data-lucide="shopping-cart" style="width:16px; margin-right:6px;"></i> Quản Lý & Cập Nhật Đơn Hàng
+                </button>
+                <button class="btn btn-outline btn-sm" onclick="app.switchCmsTab('settings')">
+                  <i data-lucide="settings" style="width:16px; margin-right:6px;"></i> Cấu Hình Hotline & VietQR
+                </button>
+                <button class="btn btn-outline btn-sm" style="color:#b91c1c; border-color:#fca5a5;" onclick="app.resetAllProductsToDefault()">
+                  <i data-lucide="refresh-cw" style="width:16px; margin-right:6px;"></i> Khôi Phục 62 Sản Phẩm Gốc
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB 2: PRODUCTS MANAGEMENT ==================== -->
+          <div id="cms-tab-view-products" class="cms-tab-content" style="display:none;">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">
+                  <i data-lucide="package" style="color:var(--accent);"></i> Danh Sách Sản Phẩm Tinh Dầu (<span id="cms-prod-table-count">62</span>)
+                </div>
+                <div style="display:flex; gap:10px;">
+                  <button class="btn btn-primary btn-sm" onclick="app.openNewProductModal()">
+                    <i data-lucide="plus" style="width:16px;"></i> + Thêm Mới
+                  </button>
+                  <button class="btn btn-outline btn-sm" onclick="app.resetAllProductsToDefault()" title="Khôi phục danh sách gốc từ dữ liệu Google Sheets">
+                    <i data-lucide="refresh-cw" style="width:14px;"></i> Reset Gốc
+                  </button>
+                </div>
+              </div>
+
+              <!-- Filter Toolbar -->
+              <div class="cms-toolbar">
+                <div style="flex:1; min-width:240px; position:relative;">
+                  <input type="text" id="cms-prod-search" class="form-control" placeholder="Tìm theo tên sản phẩm, tên khoa học..." oninput="app.filterCmsProducts()">
+                </div>
+                <select id="cms-prod-cat-filter" class="form-control" style="width:auto; min-width:180px;" onchange="app.filterCmsProducts()">
+                  <option value="all">Tất cả danh mục (62 loại)</option>
+                  <option value="Hương Hoa">Hương Hoa</option>
+                  <option value="Hương Gỗ">Hương Gỗ</option>
+                  <option value="Thảo Mộc">Thảo Mộc</option>
+                  <option value="Cam Chanh">Cam Chanh</option>
+                  <option value="Dược Liệu">Dược Liệu</option>
+                  <option value="Dầu Nền">Dầu Nền</option>
+                </select>
+              </div>
+
+              <!-- Products Table -->
+              <div class="cms-table-container">
+                <table class="cms-table">
+                  <thead>
+                    <tr>
+                      <th style="width:60px;">Ảnh</th>
+                      <th>Tên Sản Phẩm</th>
+                      <th>Danh Mục</th>
+                      <th>Giá Bán</th>
+                      <th>Dung Tích</th>
+                      <th>Tồn Kho</th>
+                      <th>Huy Hiệu</th>
+                      <th style="text-align:center; width:130px;">Hành Động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cms-products-tbody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB 3: ORDERS MANAGEMENT ==================== -->
+          <div id="cms-tab-view-orders" class="cms-tab-content" style="display:none;">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">
+                  <i data-lucide="shopping-bag" style="color:var(--accent);"></i> Danh Sách Đơn Đặt Hàng Trực Tuyến (<span id="cms-orders-table-count">0</span>)
+                </div>
+                <div>
+                  <button class="btn btn-outline btn-sm" style="color:#b91c1c; border-color:#fca5a5;" onclick="app.clearAllOrders()">
+                    <i data-lucide="trash-2" style="width:14px;"></i> Xóa Tất Cả Đơn
+                  </button>
+                </div>
+              </div>
+
+              <!-- Orders Table -->
+              <div class="cms-table-container">
+                <table class="cms-table">
+                  <thead>
+                    <tr>
+                      <th>Mã Đơn</th>
+                      <th>Thời Gian</th>
+                      <th>Khách Hàng</th>
+                      <th>Số Điện Thoại</th>
+                      <th>Địa Chỉ Giao Nhận</th>
+                      <th>Sản Phẩm Đã Mua</th>
+                      <th>Tổng Tiền</th>
+                      <th>Thanh Toán</th>
+                      <th style="width:150px;">Trạng Thái</th>
+                      <th style="text-align:center; width:70px;">Xóa</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cms-orders-tbody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB 4: ARTICLES MANAGEMENT ==================== -->
+          <div id="cms-tab-view-articles" class="cms-tab-content" style="display:none;">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">
+                  <i data-lucide="file-text" style="color:var(--accent);"></i> Kho Bài Viết Kiến Thức & Trị Liệu (<span id="cms-art-table-count">6</span>)
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="app.openNewArticleModal()">
+                  <i data-lucide="plus" style="width:16px;"></i> + Viết Bài Mới
+                </button>
+              </div>
+
+              <!-- Filter Toolbar -->
+              <div class="cms-toolbar">
+                <div style="flex:1; min-width:240px;">
+                  <input type="text" id="cms-art-search" class="form-control" placeholder="Tìm kiếm bài viết..." oninput="app.filterCmsArticles()">
+                </div>
+                <select id="cms-art-cat-filter" class="form-control" style="width:auto;" onchange="app.filterCmsArticles()">
+                  <option value="all">Tất cả chuyên mục</option>
+                  <option value="Cẩm Nang Trị Liệu">Cẩm Nang Trị Liệu</option>
+                  <option value="Nguồn Gốc & Quy Trình">Nguồn Gốc & Quy Trình</option>
+                  <option value="Chăm Sóc Sức Khỏe">Chăm Sóc Sức Khỏe</option>
+                </select>
+              </div>
+
+              <!-- Articles Table -->
+              <div class="cms-table-container">
+                <table class="cms-table">
+                  <thead>
+                    <tr>
+                      <th style="width:60px;">Ảnh</th>
+                      <th>Tiêu Đề Bài Viết</th>
+                      <th>Chuyên Mục</th>
+                      <th>Ngày Đăng</th>
+                      <th>Thời Lượng</th>
+                      <th style="text-align:center; width:130px;">Hành Động</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cms-articles-tbody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB 5: INQUIRIES MANAGEMENT ==================== -->
+          <div id="cms-tab-view-inquiries" class="cms-tab-content" style="display:none;">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <div class="cms-card-title">
+                  <i data-lucide="message-square" style="color:var(--accent);"></i> Khách Đăng Ký Tư Vấn & Liên Hệ (<span id="cms-inquiries-table-count">0</span>)
+                </div>
+                <div>
+                  <button class="btn btn-outline btn-sm" style="color:#b91c1c; border-color:#fca5a5;" onclick="app.clearAllInquiries()">
+                    <i data-lucide="trash-2" style="width:14px;"></i> Xóa Tất Cả
+                  </button>
+                </div>
+              </div>
+
+              <!-- Inquiries Table -->
+              <div class="cms-table-container">
+                <table class="cms-table">
+                  <thead>
+                    <tr>
+                      <th>Thời Gian</th>
+                      <th>Họ Và Tên</th>
+                      <th>Số Điện Thoại</th>
+                      <th>Email</th>
+                      <th>Nội Dung Yêu Cầu</th>
+                      <th>Trạng Thái</th>
+                      <th style="text-align:center; width:100px;">Thao Tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cms-inquiries-tbody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== TAB 6: SETTINGS ==================== -->
+          <div id="cms-tab-view-settings" class="cms-tab-content" style="display:none;">
+            <div class="cms-card" style="max-width:850px; margin:0 auto;">
+              <div class="cms-card-header">
+                <div class="cms-card-title"><i data-lucide="sliders" style="color:var(--accent);"></i> Cấu Hình Thông Tin Toàn Cửa Hàng</div>
+              </div>
+              <div style="padding:28px;">
+                <form id="cms-settings-form" onsubmit="app.handleSaveSettings(event)">
+                  <div class="cms-form-grid" style="margin-bottom:18px;">
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Hotline CSKH / Bán Lẻ:</label>
+                      <input type="text" id="cms-set-hotline" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Email Nhận Thông Báo:</label>
+                      <input type="email" id="cms-set-email" class="form-control" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom:18px;">
+                    <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Địa chỉ Showroom TP. Hồ Chí Minh:</label>
+                    <input type="text" id="cms-set-showroom-hcm" class="form-control" required>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom:18px;">
+                    <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Địa chỉ Showroom Hà Nội:</label>
+                    <input type="text" id="cms-set-showroom-hn" class="form-control" required>
+                  </div>
+
+                  <div class="cms-form-grid" style="margin-bottom:18px;">
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Ngưỡng Miễn Phí Vận Chuyển (VNĐ):</label>
+                      <input type="number" id="cms-set-freeship" class="form-control" required step="50000">
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Thông Tin STK Ngân Hàng (VietQR):</label>
+                      <input type="text" id="cms-set-bank" class="form-control" required>
+                    </div>
+                  </div>
+
+                  <div class="cms-form-grid" style="margin-bottom:24px; padding-top:16px; border-top:1px dashed var(--border-light);">
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Tài Khoản Quản Trị (Admin Username):</label>
+                      <input type="text" id="cms-set-admin-user" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:6px; display:block;">Mật Khẩu Quản Trị (Admin Password):</label>
+                      <input type="text" id="cms-set-admin-pass" class="form-control" required>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary" style="padding:12px 28px;">
+                    <i data-lucide="save" style="width:16px; margin-right:6px;"></i> Lưu Cấu Hình Cửa Hàng
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==================== CMS MODAL: ADD / EDIT PRODUCT ==================== -->
+  <div id="cms-product-modal" class="cms-modal-backdrop">
+    <div class="cms-modal-window" style="max-width:760px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border-light);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h3 style="font-family:var(--font-heading); color:var(--primary); margin:0;" id="cms-prod-modal-title">Thêm Sản Phẩm</h3>
+          <span class="cms-badge" id="cms-prod-modal-badge" style="background:var(--mint-bg); color:var(--primary);">Mới</span>
+        </div>
+        <button class="icon-btn" onclick="app.closeCmsProductModal()">&times;</button>
+      </div>
+
+      <form id="cms-product-form" onsubmit="app.handleSaveProduct(event)">
+        <input type="hidden" id="cms-prod-id">
+
+        <div class="cms-form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tên sản phẩm *</label>
+            <input type="text" id="cms-prod-name" class="form-control" required placeholder="VD: Tinh Dầu Bưởi Hồng">
+          </div>
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tên khoa học / Tiếng Anh</label>
+            <input type="text" id="cms-prod-subtitle" class="form-control" placeholder="VD: Citrus paradisi">
+          </div>
+        </div>
+
+        <div class="cms-form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Danh mục *</label>
+            <select id="cms-prod-category" class="form-control" required>
+              <option value="Hương Hoa">Hương Hoa</option>
+              <option value="Hương Gỗ">Hương Gỗ</option>
+              <option value="Thảo Mộc">Thảo Mộc</option>
+              <option value="Cam Chanh">Cam Chanh</option>
+              <option value="Dược Liệu">Dược Liệu</option>
+              <option value="Dầu Nền">Dầu Nền</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Giá bán (VNĐ) *</label>
+            <input type="number" id="cms-prod-price" class="form-control" required step="1000" placeholder="180000">
+          </div>
+        </div>
+
+        <div class="cms-form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Dung tích mặc định</label>
+            <input type="text" id="cms-prod-volume" class="form-control" placeholder="10ml, 30ml, 100ml">
+          </div>
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Số lượng tồn kho</label>
+            <input type="number" id="cms-prod-stock" class="form-control" value="20" min="0">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Đường dẫn hình ảnh (URL)</label>
+          <input type="text" id="cms-prod-image" class="form-control" placeholder="assets/cat_citrus.jpg hoặc link web">
+        </div>
+
+        <div class="cms-form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tông hương (Aroma note)</label>
+            <input type="text" id="cms-prod-aroma" class="form-control" placeholder="Ngọt thanh, the mát, ấm áp...">
+          </div>
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tầng hương</label>
+            <input type="text" id="cms-prod-note" class="form-control" placeholder="Hương đầu (Top note), Hương giữa...">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Công dụng trị liệu nổi bật (phân tách bởi dấu phẩy)</label>
+          <input type="text" id="cms-prod-benefits" class="form-control" placeholder="Thư giãn tinh thần, Giúp ngủ ngon, Kháng khuẩn...">
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Cách sử dụng khuyến nghị</label>
+          <textarea id="cms-prod-uses" class="form-control" rows="2" placeholder="Xông tinh dầu phòng ngủ 3-5 giọt, pha loãng dầu nền massage..."></textarea>
+        </div>
+
+        <div style="display:flex; gap:24px; margin-bottom:24px;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.88rem; cursor:pointer;">
+            <input type="checkbox" id="cms-prod-organic" style="accent-color:var(--accent);"> Chứng nhận Organic 100%
+          </label>
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.88rem; cursor:pointer;">
+            <input type="checkbox" id="cms-prod-featured" style="accent-color:var(--accent);"> Đặt làm Sản Phẩm Nổi Bật (Trang chủ)
+          </label>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="app.closeCmsProductModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary btn-sm">Lưu Sản Phẩm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== CMS MODAL: ADD / EDIT ARTICLE ==================== -->
+  <div id="cms-article-modal" class="cms-modal-backdrop">
+    <div class="cms-modal-window" style="max-width:760px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border-light);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h3 style="font-family:var(--font-heading); color:var(--primary); margin:0;" id="cms-art-modal-title">Viết Bài Mới</h3>
+          <span class="cms-badge" id="cms-art-modal-badge" style="background:var(--mint-bg); color:var(--primary);">Tạo Mới</span>
+        </div>
+        <button class="icon-btn" onclick="app.closeCmsArticleModal()">&times;</button>
+      </div>
+
+      <form id="cms-article-form" onsubmit="app.handleSaveArticle(event)">
+        <input type="hidden" id="cms-art-id">
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tiêu đề bài viết *</label>
+          <input type="text" id="cms-art-title" class="form-control" required placeholder="VD: Nghệ Thuật Khử Mùi & Thanh Lọc Không Khí...">
+        </div>
+
+        <div class="cms-form-grid" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Chuyên mục *</label>
+            <select id="cms-art-category" class="form-control" required>
+              <option value="Cẩm Nang Trị Liệu">Cẩm Nang Trị Liệu</option>
+              <option value="Nguồn Gốc & Quy Trình">Nguồn Gốc & Quy Trình</option>
+              <option value="Chăm Sóc Sức Khỏe">Chăm Sóc Sức Khỏe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Thời lượng đọc</label>
+            <input type="text" id="cms-art-readtime" class="form-control" placeholder="5 phút đọc">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Ảnh bài viết (URL)</label>
+          <input type="text" id="cms-art-image" class="form-control" placeholder="assets/story_distillation.jpg">
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Tóm tắt ngắn (Excerpt)</label>
+          <textarea id="cms-art-excerpt" class="form-control" rows="2" placeholder="Tóm tắt 1-2 câu nội dung chính bài viết..."></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--primary); margin-bottom:4px; display:block;">Nội dung chi tiết bài viết (Hỗ trợ HTML)</label>
+          <textarea id="cms-art-content" class="form-control" rows="6" placeholder="Nhập nội dung bài viết chi tiết..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="app.closeCmsArticleModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary btn-sm">Đăng Bài Viết</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Master Data & App Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js?v=5"></script>
+</body>
+</html>
