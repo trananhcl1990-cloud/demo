@@ -6,7 +6,182 @@
   <title>CALOHA - Natural Health | Tinh Dầu Thiên Nhiên & Dược Liệu Trị Liệu Cao Cấp</title>
   <meta name="description" content="Khám phá hơn 62 dòng tinh dầu thiên nhiên nguyên chất và dầu nền hữu cơ từ CALOHA Natural Health. Chiết xuất 100% tự nhiên, kiểm định GC-MS, nuôi dưỡng thân tâm trí.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
+  <!-- Dedicated Floating Contact Bar Styles to guarantee instant rendering without cache issues -->
+  <style id="floating-contact-style">
+    .floating-contact-bar {
+      position: fixed !important;
+      bottom: 28px !important;
+      right: 28px !important;
+      z-index: 9999 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      user-select: none !important;
+    }
+    .fc-btn {
+      position: relative !important;
+      width: 48px !important;
+      height: 48px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-decoration: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease !important;
+      outline: none !important;
+      border-radius: 50% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .fc-btn:hover {
+      transform: scale(1.1) translateY(-2px) !important;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28) !important;
+    }
+    .fc-btn-phone {
+      background: #e52424 !important;
+      color: #ffffff !important;
+    }
+    .fc-phone-icon {
+      position: relative !important;
+      z-index: 2 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      animation: phoneVibrate 2.6s infinite ease-in-out !important;
+    }
+    .fc-phone-wave, .fc-phone-wave-2 {
+      position: absolute !important;
+      inset: -6px !important;
+      border-radius: 50% !important;
+      border: 2px solid rgba(229, 36, 36, 0.65) !important;
+      pointer-events: none !important;
+      animation: phonePulse 1.8s infinite cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+    }
+    .fc-phone-wave-2 {
+      animation-delay: 0.6s !important;
+    }
+    @keyframes phonePulse {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      70% { transform: scale(1.45); opacity: 0; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    @keyframes phoneVibrate {
+      0%, 100% { transform: rotate(0deg); }
+      2%, 6%, 10% { transform: rotate(-14deg); }
+      4%, 8%, 12% { transform: rotate(14deg); }
+      14% { transform: rotate(0deg); }
+    }
+    .fc-btn-zalo {
+      background: #0068ff !important;
+      color: #ffffff !important;
+    }
+    .fc-btn-zalo svg {
+      width: 28px !important;
+      height: 28px !important;
+      display: block !important;
+    }
+    .fc-btn-messenger {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    .fc-btn-messenger:hover {
+      transform: scale(1.1) translateY(-2px) !important;
+      box-shadow: none !important;
+    }
+    .fc-messenger-bubble {
+      width: 48px !important;
+      height: 48px !important;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.2)) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: filter 0.25s ease !important;
+    }
+    .fc-btn-messenger:hover .fc-messenger-bubble {
+      filter: drop-shadow(0 8px 22px rgba(160, 51, 255, 0.4)) !important;
+    }
+    .fc-btn-top {
+      border-radius: 10px !important;
+      background: #5cb838 !important;
+      color: #ffffff !important;
+    }
+    .fc-btn-top svg {
+      width: 24px !important;
+      height: 24px !important;
+      stroke: #ffffff !important;
+      stroke-width: 3.5 !important;
+      stroke-linecap: round !important;
+      stroke-linejoin: round !important;
+      transition: transform 0.2s ease !important;
+    }
+    .fc-btn-top:hover svg {
+      transform: translateY(-2px) !important;
+    }
+    .fc-tooltip {
+      position: absolute !important;
+      right: calc(100% + 14px) !important;
+      top: 50% !important;
+      transform: translateY(-50%) translateX(8px) !important;
+      background: rgba(13, 56, 41, 0.94) !important;
+      color: #ffffff !important;
+      font-size: 0.82rem !important;
+      font-weight: 600 !important;
+      padding: 6px 12px !important;
+      border-radius: 6px !important;
+      white-space: nowrap !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
+    .fc-tooltip::after {
+      content: '' !important;
+      position: absolute !important;
+      left: 100% !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      border-width: 5px !important;
+      border-style: solid !important;
+      border-color: transparent transparent transparent rgba(13, 56, 41, 0.94) !important;
+    }
+    .fc-btn:hover .fc-tooltip {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(-50%) translateX(0) !important;
+    }
+    @media (max-width: 580px) {
+      .floating-contact-bar {
+        bottom: 20px !important;
+        right: 16px !important;
+        gap: 10px !important;
+      }
+      .fc-btn {
+        width: 44px !important;
+        height: 44px !important;
+      }
+      .fc-messenger-bubble {
+        width: 44px !important;
+        height: 44px !important;
+      }
+      .fc-btn-zalo svg {
+        width: 25px !important;
+        height: 25px !important;
+      }
+      .fc-btn-top svg {
+        width: 22px !important;
+        height: 22px !important;
+      }
+      .fc-tooltip {
+        display: none !important;
+      }
+    }
+  </style>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -44,6 +219,7 @@
           <li><a class="nav-link" data-view="catalog" href="catalog.html">Danh Mục Sản Phẩm</a></li>
           <li><a class="nav-link" data-view="about" href="about.html">Giới Thiệu</a></li>
           <li><a class="nav-link" data-view="articles" href="articles.html">Kiến Thức & Cẩm Nang</a></li>
+          <li><a class="nav-link" data-view="orders" href="orders.html">Đơn Hàng</a></li>
           <li><a class="nav-link" data-view="contact" href="contact.html">Liên Hệ</a></li>
         </ul>
       </nav>
@@ -1216,9 +1392,12 @@
         <span>Tổng cộng:</span>
         <span id="cart-total-display">0đ</span>
       </div>
-      <button class="btn btn-primary" style="width:100%;" onclick="app.openCheckout()">
-        Tiến Hành Đặt Hàng Ngay <i data-lucide="arrow-right" style="width:18px;"></i>
-      </button>
+      <a href="checkout.html" class="btn btn-primary" style="width:100%; text-align:center; text-decoration:none; display:flex; justify-content:center; align-items:center;">
+        Tiến Hành Đặt Hàng Ngay <i data-lucide="arrow-right" style="width:18px; margin-left:6px;"></i>
+      </a>
+      <a href="cart.html" class="btn btn-outline" style="width:100%; text-align:center; text-decoration:none; display:block; margin-top:8px;">
+        Xem Giỏ Hàng Chi Tiết
+      </a>
     </div>
   </aside>
 

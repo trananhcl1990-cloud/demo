@@ -39,8 +39,59 @@ class CalohaApp {
 
     this.testimonials = TESTIMONIALS_DATA;
 
-    // Orders state with localStorage persistence
-    this.orders = JSON.parse(localStorage.getItem('caloha_orders') || '[]');
+    // Orders state with localStorage persistence and fallback demo order
+    const savedOrders = localStorage.getItem('caloha_orders');
+    if (savedOrders) {
+      try { this.orders = JSON.parse(savedOrders); } catch(e) { this.orders = []; }
+    } else {
+      this.orders = [
+        {
+          id: 'ORD-829104',
+          date: '20/09/2026, 14:35:10',
+          name: 'Nguyễn Thanh Tùng',
+          phone: '0988 234 567',
+          email: 'tung.nguyen@example.com',
+          province: 'TP. Hồ Chí Minh',
+          district: 'Quận 1',
+          ward: 'Phường Bến Nghé',
+          address: 'Số 12 Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh',
+          shippingMethod: 'Tiêu chuẩn (2-3 ngày)',
+          shippingFee: 0,
+          payment: 'banking',
+          paymentLabel: 'Chuyển khoản VietQR',
+          items: [
+            {
+              id: 1,
+              name: 'Tinh Dầu Cam Ngọt (Sweet Orange)',
+              volume: '30ml',
+              price: 180000,
+              quantity: 2,
+              image: 'assets/cat_citrus.jpg'
+            },
+            {
+              id: 2,
+              name: 'Tinh Dầu Oải Hương (Lavender Pure)',
+              volume: '10ml',
+              price: 250000,
+              quantity: 1,
+              image: 'assets/cat_floral.jpg'
+            }
+          ],
+          subtotal: 610000,
+          discount: 50000,
+          voucherCode: 'CALOHA10',
+          total: 560000,
+          note: 'Giao trong giờ hành chính, đóng gói hộp quà giúp tôi.',
+          status: 'Đang vận chuyển'
+        }
+      ];
+      localStorage.setItem('caloha_orders', JSON.stringify(this.orders));
+    }
+
+    this.appliedVoucher = JSON.parse(localStorage.getItem('caloha_voucher') || 'null');
+    this.orderNote = localStorage.getItem('caloha_order_note') || '';
+    this.selectedShippingMethod = 'standard';
+    this.selectedPaymentMethod = 'cod';
 
     // Inquiries / Consultation leads state with localStorage persistence
     this.inquiries = JSON.parse(localStorage.getItem('caloha_inquiries') || '[]');
@@ -133,6 +184,9 @@ class CalohaApp {
     this.startHeroCarousel();
     this.setupKeyboardShortcuts();
     this.initFloatingWidget();
+    this.initCartPage();
+    this.initCheckoutPage();
+    this.initOrdersPage();
 
     // Sync radio buttons if filtered by query param
     if (this.catalogFilters.category !== 'all') {
@@ -1085,6 +1139,660 @@ class CalohaApp {
     this.updateCartUI();
 
     this.showToast(`🎉 Cảm ơn ${name}! Mã đơn hàng: ${newOrder.id}. Chuyên viên CALOHA sẽ gọi xác nhận qua SĐT ${phone} trong ít phút.`);
+  }
+
+  /* ==================== CART PAGE METHODS ==================== */
+  initCartPage() {
+    const tableBody = document.getElementById('cart-page-tbody');
+    if (!tableBody) return;
+    this.renderCartPage();
+  }
+
+  renderCartPage() {
+    const tableBody = document.getElementById('cart-page-tbody');
+    const emptyState = document.getElementById('cart-empty-view');
+    const contentLayout = document.getElementById('cart-content-layout');
+    if (!tableBody) return;
+
+    if (this.cart.length === 0) {
+      if (emptyState) emptyState.style.display = 'block';
+      if (contentLayout) contentLayout.style.display = 'none';
+      return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+    if (contentLayout) contentLayout.style.display = 'grid';
+
+    tableBody.innerHTML = this.cart.map((item, idx) => {
+      const lineTotal = item.price * item.quantity;
+      return `
+        <tr>
+          <td>
+            <div class="cart-prod-cell">
+              <img src="${item.image}" alt="${item.name}" class="cart-prod-thumb" onerror="this.src='assets/cat_herbal.jpg'">
+              <div class="cart-prod-meta">
+                <a href="catalog.html" class="cart-prod-name">${item.name}</a>
+                <span class="cart-prod-vol-tag"><i data-lucide="droplet" style="width:12px; height:12px;"></i> Dung tích: ${item.volume}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="cart-unit-price">${item.price.toLocaleString('vi-VN')}đ</span>
+          </td>
+          <td>
+            <div class="cart-qty-ctrl">
+              <button type="button" onclick="app.updateQuantity(${idx}, -1); app.renderCartPage();">-</button>
+              <input type="text" value="${item.quantity}" readonly>
+              <button type="button" onclick="app.updateQuantity(${idx}, 1); app.renderCartPage();">+</button>
+            </div>
+          </td>
+          <td>
+            <span class="cart-line-total">${lineTotal.toLocaleString('vi-VN')}đ</span>
+          </td>
+          <td>
+            <button type="button" class="cart-del-btn" onclick="app.removeFromCart(${idx}); app.renderCartPage();" title="Xóa khỏi giỏ">
+              <i data-lucide="trash-2" style="width:18px; height:18px;"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    const subtotal = this.cart.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+    const freeShipThreshold = this.settings.freeShipThreshold || 500000;
+    const freeshipProgress = Math.min(100, Math.round((subtotal / freeShipThreshold) * 100));
+    const diff = freeShipThreshold - subtotal;
+
+    const progressEl = document.getElementById('cart-freeship-progress');
+    const msgEl = document.getElementById('cart-freeship-msg');
+    if (progressEl) progressEl.style.width = `${freeshipProgress}%`;
+    if (msgEl) {
+      if (subtotal >= freeShipThreshold) {
+        msgEl.innerHTML = `🎉 <strong>Chúc mừng!</strong> Bạn đã đạt điều kiện <strong>Miễn Phí Vận Chuyển</strong> toàn quốc!`;
+      } else {
+        msgEl.innerHTML = `🚚 Mua thêm <strong>${diff.toLocaleString('vi-VN')}đ</strong> để được <strong>Miễn Phí Giao Hàng</strong> toàn quốc!`;
+      }
+    }
+
+    let discount = 0;
+    if (this.appliedVoucher) {
+      if (this.appliedVoucher.type === 'percent') {
+        discount = Math.round(subtotal * (this.appliedVoucher.value / 100));
+      } else if (this.appliedVoucher.type === 'fixed') {
+        discount = this.appliedVoucher.value;
+      } else if (this.appliedVoucher.type === 'freeship') {
+        discount = 30000;
+      }
+    }
+
+    const shippingFee = (subtotal >= freeShipThreshold || (this.appliedVoucher && this.appliedVoucher.type === 'freeship')) ? 0 : 30000;
+    const finalTotal = Math.max(0, subtotal - discount + shippingFee);
+
+    const subtotalEl = document.getElementById('page-cart-subtotal');
+    if (subtotalEl) subtotalEl.textContent = subtotal.toLocaleString('vi-VN') + 'đ';
+
+    const discountRow = document.getElementById('page-cart-discount-row');
+    const discountEl = document.getElementById('page-cart-discount');
+    if (discountRow && discountEl) {
+      if (discount > 0) {
+        discountRow.style.display = 'flex';
+        discountEl.textContent = '-' + discount.toLocaleString('vi-VN') + 'đ';
+      } else {
+        discountRow.style.display = 'none';
+      }
+    }
+
+    const shippingEl = document.getElementById('page-cart-shipping');
+    if (shippingEl) shippingEl.textContent = (shippingFee === 0) ? 'Miễn phí' : '30.000đ';
+
+    const totalEl = document.getElementById('page-cart-total');
+    if (totalEl) totalEl.textContent = finalTotal.toLocaleString('vi-VN') + 'đ';
+
+    const appliedView = document.getElementById('page-cart-applied-voucher');
+    if (appliedView) {
+      if (this.appliedVoucher) {
+        appliedView.innerHTML = `
+          <div class="applied-voucher-tag">
+            <span>🎟️ Đã dùng: <strong>${this.appliedVoucher.code}</strong> (${this.appliedVoucher.desc})</span>
+            <button type="button" style="background:none; border:none; color:#dc3545; font-weight:700; cursor:pointer;" onclick="app.removeVoucher()">&times;</button>
+          </div>
+        `;
+      } else {
+        appliedView.innerHTML = '';
+      }
+    }
+
+    const noteEl = document.getElementById('page-cart-note');
+    if (noteEl && this.orderNote) {
+      noteEl.value = this.orderNote;
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  applyVoucherCode(code) {
+    const raw = (code || document.getElementById('voucher-code-input')?.value || '').trim().toUpperCase();
+    if (!raw) {
+      this.showToast('⚠️ Vui lòng nhập mã giảm giá!');
+      return;
+    }
+    const vouchers = {
+      'CALOHA10': { code: 'CALOHA10', type: 'percent', value: 10, desc: 'Giảm 10% tổng đơn' },
+      'FREESHIP': { code: 'FREESHIP', type: 'freeship', value: 30000, desc: 'Miễn phí giao hàng' },
+      'HUONGTHO50K': { code: 'HUONGTHO50K', type: 'fixed', value: 50000, desc: 'Giảm 50.000đ đơn từ 400k' }
+    };
+
+    if (vouchers[raw]) {
+      const subtotal = this.cart.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+      if (raw === 'HUONGTHO50K' && subtotal < 400000) {
+        this.showToast('⚠️ Mã HUONGTHO50K chỉ áp dụng cho đơn từ 400.000đ!');
+        return;
+      }
+      this.appliedVoucher = vouchers[raw];
+      localStorage.setItem('caloha_voucher', JSON.stringify(this.appliedVoucher));
+      this.showToast(`🎉 Áp dụng mã ưu đãi ${raw} thành công!`);
+      this.renderCartPage();
+      this.renderCheckoutPage();
+    } else {
+      this.showToast('❌ Mã giảm giá không đúng hoặc đã hết hạn!');
+    }
+  }
+
+  removeVoucher() {
+    this.appliedVoucher = null;
+    localStorage.removeItem('caloha_voucher');
+    this.showToast('Đã bỏ áp dụng mã giảm giá.');
+    this.renderCartPage();
+    this.renderCheckoutPage();
+  }
+
+  clearEntireCart() {
+    if (this.cart.length === 0) return;
+    if (confirm('Bạn có chắc chắn muốn xóa tất cả sản phẩm trong giỏ hàng?')) {
+      this.cart = [];
+      this.saveCart();
+      this.updateCartUI();
+      this.renderCartPage();
+      this.showToast('🗑️ Đã làm trống giỏ hàng.');
+    }
+  }
+
+  saveCartNote(note) {
+    this.orderNote = note;
+    localStorage.setItem('caloha_order_note', note);
+  }
+
+  /* ==================== CHECKOUT PAGE METHODS ==================== */
+  initCheckoutPage() {
+    const form = document.getElementById('full-checkout-form');
+    if (!form) return;
+    if (this.cart.length === 0) {
+      const warnBox = document.getElementById('checkout-empty-warning');
+      const mainGrid = document.getElementById('checkout-main-grid');
+      if (warnBox && mainGrid) {
+        warnBox.style.display = 'block';
+        mainGrid.style.display = 'none';
+        return;
+      }
+    }
+    this.renderCheckoutPage();
+  }
+
+  renderCheckoutPage() {
+    const list = document.getElementById('checkout-mini-items');
+    if (!list) return;
+
+    list.innerHTML = this.cart.map(item => `
+      <div class="checkout-mini-item">
+        <div class="checkout-mini-thumb-wrap">
+          <img src="${item.image}" alt="${item.name}" class="checkout-mini-thumb" onerror="this.src='assets/cat_herbal.jpg'">
+          <span class="checkout-mini-qty">${item.quantity}</span>
+        </div>
+        <div class="checkout-mini-info">
+          <div class="checkout-mini-name">${item.name}</div>
+          <div class="checkout-mini-vol">Dung tích: ${item.volume}</div>
+        </div>
+        <div class="checkout-mini-price">${(item.price * item.quantity).toLocaleString('vi-VN')}đ</div>
+      </div>
+    `).join('');
+
+    const subtotal = this.cart.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+    const freeShipLimit = this.settings.freeShipThreshold || 500000;
+    
+    let shippingFee = (subtotal >= freeShipLimit) ? 0 : 30000;
+    if (this.selectedShippingMethod === 'express') {
+      shippingFee = 45000;
+    }
+    if (this.appliedVoucher && this.appliedVoucher.type === 'freeship') {
+      shippingFee = 0;
+    }
+
+    let discount = 0;
+    if (this.appliedVoucher) {
+      if (this.appliedVoucher.type === 'percent') {
+        discount = Math.round(subtotal * (this.appliedVoucher.value / 100));
+      } else if (this.appliedVoucher.type === 'fixed') {
+        discount = this.appliedVoucher.value;
+      } else if (this.appliedVoucher.type === 'freeship') {
+        discount = 30000;
+      }
+    }
+
+    const total = Math.max(0, subtotal - discount + shippingFee);
+
+    const subtotalEl = document.getElementById('checkout-subtotal');
+    if (subtotalEl) subtotalEl.textContent = subtotal.toLocaleString('vi-VN') + 'đ';
+
+    const discountRow = document.getElementById('checkout-discount-row');
+    const discountEl = document.getElementById('checkout-discount');
+    if (discountRow && discountEl) {
+      if (discount > 0) {
+        discountRow.style.display = 'flex';
+        discountEl.textContent = '-' + discount.toLocaleString('vi-VN') + 'đ';
+      } else {
+        discountRow.style.display = 'none';
+      }
+    }
+
+    const shipEl = document.getElementById('checkout-shipping');
+    if (shipEl) shipEl.textContent = (shippingFee === 0) ? 'Miễn phí' : shippingFee.toLocaleString('vi-VN') + 'đ';
+
+    const totalEl = document.getElementById('checkout-final-total');
+    if (totalEl) totalEl.textContent = total.toLocaleString('vi-VN') + 'đ';
+
+    this.updateVietQRDisplay(total);
+
+    const noteEl = document.getElementById('checkout-note');
+    if (noteEl && this.orderNote && !noteEl.value) {
+      noteEl.value = this.orderNote;
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  setShippingMethod(method) {
+    this.selectedShippingMethod = method;
+    document.querySelectorAll('.shipping-card-option').forEach(el => {
+      if (el.dataset.method === method) el.classList.add('active');
+      else el.classList.remove('active');
+    });
+    this.renderCheckoutPage();
+  }
+
+  setPaymentMethod(method) {
+    this.selectedPaymentMethod = method;
+    document.querySelectorAll('.payment-method-card').forEach(el => {
+      if (el.dataset.method === method) el.classList.add('active');
+      else el.classList.remove('active');
+    });
+    const subtotal = this.cart.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+    const shippingFee = (this.selectedShippingMethod === 'express') ? 45000 : ((subtotal >= 500000) ? 0 : 30000);
+    const total = subtotal + shippingFee;
+    this.updateVietQRDisplay(total);
+  }
+
+  updateVietQRDisplay(total) {
+    const qrImg = document.getElementById('vietqr-image-el');
+    const qrAmountEl = document.getElementById('vietqr-amount-val');
+    const qrSyntaxEl = document.getElementById('vietqr-syntax-val');
+    if (!this._orderSyntaxCode) {
+      this._orderSyntaxCode = 'CALOHA' + Math.floor(100000 + Math.random() * 900000);
+    }
+    const syntax = this._orderSyntaxCode;
+
+    if (qrAmountEl) qrAmountEl.textContent = total.toLocaleString('vi-VN') + 'đ';
+    if (qrSyntaxEl) qrSyntaxEl.textContent = syntax;
+    if (qrImg) {
+      qrImg.src = `https://img.vietqr.io/image/970422-1029384756-compact2.png?amount=${total}&addInfo=${syntax}&accountName=CONG%20TY%20CALOHA`;
+    }
+  }
+
+  copyToClipboard(text, msg) {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showToast(msg || `Đã sao chép: ${text}`);
+    }).catch(() => {
+      this.showToast(`Đã sao chép: ${text}`);
+    });
+  }
+
+  handleFullCheckoutSubmit(e) {
+    e.preventDefault();
+    if (this.cart.length === 0) {
+      this.showToast('⚠️ Giỏ hàng trống, không thể đặt hàng!');
+      return;
+    }
+
+    const name = document.getElementById('checkout-name')?.value.trim();
+    const phone = document.getElementById('checkout-phone')?.value.trim();
+    const email = document.getElementById('checkout-email')?.value.trim() || '';
+    const province = document.getElementById('checkout-province')?.value || '';
+    const district = document.getElementById('checkout-district')?.value.trim() || '';
+    const address = document.getElementById('checkout-address')?.value.trim() || '';
+    const note = document.getElementById('checkout-note')?.value.trim() || '';
+
+    if (!name || !phone || !address) {
+      this.showToast('⚠️ Vui lòng điền đầy đủ Họ tên, Số điện thoại và Địa chỉ nhận hàng!');
+      return;
+    }
+
+    const subtotal = this.cart.reduce((sum, it) => sum + (it.price * it.quantity), 0);
+    const freeShipLimit = this.settings.freeShipThreshold || 500000;
+    let shippingFee = (subtotal >= freeShipLimit) ? 0 : 30000;
+    if (this.selectedShippingMethod === 'express') shippingFee = 45000;
+    if (this.appliedVoucher && this.appliedVoucher.type === 'freeship') shippingFee = 0;
+
+    let discount = 0;
+    if (this.appliedVoucher) {
+      if (this.appliedVoucher.type === 'percent') discount = Math.round(subtotal * (this.appliedVoucher.value / 100));
+      else if (this.appliedVoucher.type === 'fixed') discount = this.appliedVoucher.value;
+      else if (this.appliedVoucher.type === 'freeship') discount = 30000;
+    }
+
+    const total = Math.max(0, subtotal - discount + shippingFee);
+    const orderId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+
+    const paymentLabels = {
+      'cod': 'Thanh toán COD khi nhận hàng',
+      'banking': 'Chuyển khoản VietQR (MBBank)',
+      'momo': 'Ví điện tử MoMo',
+      'card': 'Thẻ Quốc tế (Visa/Mastercard)'
+    };
+
+    const newOrder = {
+      id: orderId,
+      date: new Date().toLocaleString('vi-VN'),
+      name,
+      phone,
+      email,
+      province,
+      district,
+      address: `${address}${district ? ', ' + district : ''}${province ? ', ' + province : ''}`,
+      note,
+      shippingMethod: this.selectedShippingMethod === 'express' ? 'Hỏa tốc 2H' : 'Tiêu chuẩn (2-3 ngày)',
+      shippingFee,
+      payment: this.selectedPaymentMethod,
+      paymentLabel: paymentLabels[this.selectedPaymentMethod] || 'COD',
+      items: [...this.cart],
+      subtotal,
+      discount,
+      voucherCode: this.appliedVoucher ? this.appliedVoucher.code : '',
+      total,
+      status: 'Chờ xác nhận'
+    };
+
+    this.orders.unshift(newOrder);
+    localStorage.setItem('caloha_orders', JSON.stringify(this.orders));
+
+    this.cart = [];
+    this.saveCart();
+    this.appliedVoucher = null;
+    localStorage.removeItem('caloha_voucher');
+    localStorage.removeItem('caloha_order_note');
+    this.updateCartUI();
+
+    window.location.href = `orders.html?id=${orderId}&success=true`;
+  }
+
+  /* ==================== ORDERS & TRACKING METHODS ==================== */
+  initOrdersPage() {
+    const container = document.getElementById('orders-page-root');
+    if (!container) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetId = urlParams.get('id');
+    const isSuccess = urlParams.get('success') === 'true';
+
+    if (isSuccess) {
+      const celebEl = document.getElementById('order-success-banner');
+      if (celebEl) celebEl.style.display = 'block';
+    }
+
+    let activeOrder = null;
+    if (targetId) {
+      activeOrder = this.orders.find(o => o.id.toUpperCase() === targetId.toUpperCase());
+    }
+    if (!activeOrder && this.orders.length > 0) {
+      activeOrder = this.orders[0];
+    }
+
+    this.renderActiveOrder(activeOrder);
+    this.renderOrdersHistoryList();
+  }
+
+  renderActiveOrder(order) {
+    const detailBox = document.getElementById('order-detail-container');
+    const emptyBox = document.getElementById('order-not-found');
+    if (!detailBox) return;
+
+    if (!order) {
+      detailBox.style.display = 'none';
+      if (emptyBox) emptyBox.style.display = 'block';
+      return;
+    }
+
+    if (emptyBox) emptyBox.style.display = 'none';
+    detailBox.style.display = 'block';
+
+    const statusMap = {
+      'Chờ xác nhận': { step: 1, class: 'pending', text: 'Chờ xác nhận' },
+      'Đã xác nhận': { step: 2, class: 'confirmed', text: 'Đã xác nhận' },
+      'Đang vận chuyển': { step: 3, class: 'shipping', text: 'Đang vận chuyển' },
+      'Hoàn tất': { step: 4, class: 'completed', text: 'Giao thành công' },
+      'Đã hủy': { step: 0, class: 'cancelled', text: 'Đã hủy đơn' }
+    };
+    const curStatus = statusMap[order.status] || { step: 1, class: 'pending', text: order.status };
+
+    document.getElementById('order-code-display').textContent = order.id;
+    document.getElementById('order-date-display').textContent = order.date;
+    
+    const statusPill = document.getElementById('order-status-pill');
+    if (statusPill) {
+      statusPill.className = `status-pill ${curStatus.class}`;
+      statusPill.textContent = curStatus.text;
+    }
+
+    const steps = [
+      { id: 'step-1', num: 1, label: 'Tiếp nhận đơn', sub: order.date.split(',')[0] },
+      { id: 'step-2', num: 2, label: 'CALOHA Xác nhận', sub: curStatus.step >= 2 ? 'Đã duyệt' : 'Dự kiến 15p' },
+      { id: 'step-3', num: 3, label: 'Đang giao hàng', sub: curStatus.step >= 3 ? 'Đang gửi' : '1-2 ngày tới' },
+      { id: 'step-4', num: 4, label: 'Giao thành công', sub: curStatus.step >= 4 ? 'Hoàn tất' : 'Kiểm hàng COD' }
+    ];
+
+    const timelineContainer = document.getElementById('order-timeline-nodes');
+    if (timelineContainer) {
+      if (curStatus.step === 0) {
+        timelineContainer.innerHTML = `
+          <div style="text-align:center; padding:16px; color:#dc3545; font-weight:600; width:100%;">
+            ❌ Đơn hàng này đã bị hủy. Nếu có bất kỳ thắc mắc nào, vui lòng liên hệ Hotline: 0988.234.567.
+          </div>
+        `;
+      } else {
+        timelineContainer.innerHTML = steps.map(s => {
+          let nodeClass = '';
+          if (curStatus.step > s.num) nodeClass = 'completed';
+          else if (curStatus.step === s.num) nodeClass = 'current';
+          return `
+            <div class="timeline-step-node ${nodeClass}">
+              <div class="timeline-dot">
+                ${curStatus.step > s.num ? '✓' : s.num}
+              </div>
+              <div>
+                <div class="timeline-node-text">${s.label}</div>
+                <div class="timeline-node-sub">${s.sub}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    document.getElementById('order-recipient-name').textContent = order.name;
+    document.getElementById('order-recipient-phone').textContent = order.phone;
+    document.getElementById('order-recipient-address').textContent = order.address;
+    document.getElementById('order-recipient-note').textContent = order.note || 'Không có ghi chú';
+    document.getElementById('order-shipping-method').textContent = order.shippingMethod || 'Tiêu chuẩn';
+    document.getElementById('order-payment-method').textContent = order.paymentLabel || order.payment;
+
+    const itemsTbody = document.getElementById('order-items-tbody');
+    if (itemsTbody) {
+      itemsTbody.innerHTML = order.items.map(it => `
+        <tr>
+          <td style="padding:12px 14px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${it.image}" alt="${it.name}" style="width:48px; height:48px; border-radius:6px; object-fit:cover; border:1px solid var(--border-light);" onerror="this.src='assets/cat_herbal.jpg'">
+              <div>
+                <div style="font-weight:600; font-size:0.9rem; color:var(--primary);">${it.name}</div>
+                <div style="font-size:0.78rem; color:var(--text-muted);">Dung tích: ${it.volume}</div>
+              </div>
+            </div>
+          </td>
+          <td style="padding:12px 14px; text-align:center; font-weight:600;">${it.quantity}</td>
+          <td style="padding:12px 14px; text-align:right;">${(it.price).toLocaleString('vi-VN')}đ</td>
+          <td style="padding:12px 14px; text-align:right; font-weight:700; color:var(--primary);">${(it.price * it.quantity).toLocaleString('vi-VN')}đ</td>
+        </tr>
+      `).join('');
+    }
+
+    document.getElementById('order-subtotal-val').textContent = (order.subtotal || order.total).toLocaleString('vi-VN') + 'đ';
+    document.getElementById('order-shipping-val').textContent = (order.shippingFee === 0) ? 'Miễn phí' : (order.shippingFee || 0).toLocaleString('vi-VN') + 'đ';
+    
+    const discountRow = document.getElementById('order-discount-row');
+    if (discountRow) {
+      if (order.discount && order.discount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('order-discount-val').textContent = '-' + (order.discount).toLocaleString('vi-VN') + 'đ' + (order.voucherCode ? ` (${order.voucherCode})` : '');
+      } else {
+        discountRow.style.display = 'none';
+      }
+    }
+    document.getElementById('order-total-val').textContent = order.total.toLocaleString('vi-VN') + 'đ';
+
+    const cancelBtn = document.getElementById('order-cancel-btn');
+    if (cancelBtn) {
+      if (order.status === 'Chờ xác nhận') {
+        cancelBtn.style.display = 'inline-flex';
+        cancelBtn.onclick = () => this.cancelUserOrder(order.id);
+      } else {
+        cancelBtn.style.display = 'none';
+      }
+    }
+
+    const reorderBtn = document.getElementById('order-reorder-btn');
+    if (reorderBtn) {
+      reorderBtn.onclick = () => this.reorderItems(order.id);
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  renderOrdersHistoryList() {
+    const container = document.getElementById('orders-history-tbody');
+    if (!container) return;
+
+    if (this.orders.length === 0) {
+      container.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align:center; padding:32px; color:var(--text-muted);">
+            Bạn chưa có đơn hàng nào được lưu trên thiết bị.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    container.innerHTML = this.orders.map(o => {
+      const statusClass = {
+        'Chờ xác nhận': 'pending',
+        'Đã xác nhận': 'confirmed',
+        'Đang vận chuyển': 'shipping',
+        'Hoàn tất': 'completed',
+        'Đã hủy': 'cancelled'
+      }[o.status] || 'pending';
+
+      const totalItems = o.items.reduce((s, it) => s + it.quantity, 0);
+
+      return `
+        <tr>
+          <td style="font-weight:700; color:var(--primary); cursor:pointer;" onclick="app.viewOrderDetails('${o.id}')">
+            ${o.id}
+          </td>
+          <td style="font-size:0.85rem; color:var(--text-muted);">${o.date}</td>
+          <td>${totalItems} sản phẩm</td>
+          <td style="font-weight:700; color:#b38b2d;">${o.total.toLocaleString('vi-VN')}đ</td>
+          <td><span class="status-pill ${statusClass}">${o.status}</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline" onclick="app.viewOrderDetails('${o.id}')" style="padding:4px 10px; font-size:0.8rem;">
+              Chi tiết
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  viewOrderDetails(orderId) {
+    const o = this.orders.find(item => item.id === orderId);
+    if (o) {
+      this.renderActiveOrder(o);
+      document.getElementById('order-detail-container')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  searchOrderByCodeOrPhone(e) {
+    e.preventDefault();
+    const query = document.getElementById('order-search-input')?.value.trim().toUpperCase();
+    if (!query) {
+      this.showToast('⚠️ Vui lòng nhập Mã đơn hàng hoặc Số điện thoại để tra cứu!');
+      return;
+    }
+
+    const found = this.orders.find(o => 
+      o.id.toUpperCase() === query || 
+      o.phone.replace(/\s+/g, '').includes(query.replace(/\s+/g, ''))
+    );
+
+    if (found) {
+      this.renderActiveOrder(found);
+      this.showToast(`🔍 Đã tìm thấy đơn hàng ${found.id}!`);
+      document.getElementById('order-detail-container')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      this.showToast(`❌ Không tìm thấy đơn hàng khớp với "${query}". Vui lòng kiểm tra lại!`);
+    }
+  }
+
+  reorderItems(orderId) {
+    const o = this.orders.find(item => item.id === orderId);
+    if (!o || !o.items) return;
+
+    o.items.forEach(item => {
+      const existing = this.cart.find(it => it.id === item.id && it.volume === item.volume);
+      if (existing) {
+        existing.quantity += item.quantity;
+      } else {
+        this.cart.push({ ...item });
+      }
+    });
+
+    this.saveCart();
+    this.updateCartUI();
+    this.showToast(`🛒 Đã thêm các sản phẩm từ đơn ${orderId} vào giỏ hàng!`);
+    window.location.href = 'cart.html';
+  }
+
+  cancelUserOrder(orderId) {
+    const o = this.orders.find(item => item.id === orderId);
+    if (!o) return;
+    if (confirm(`Bạn có chắc chắn muốn hủy đơn hàng ${orderId} không?`)) {
+      o.status = 'Đã hủy';
+      localStorage.setItem('caloha_orders', JSON.stringify(this.orders));
+      this.renderActiveOrder(o);
+      this.renderOrdersHistoryList();
+      this.showToast(`Đã hủy đơn hàng ${orderId}.`);
+    }
+  }
+
+  printOrderInvoice() {
+    window.print();
   }
 
   /* ==================== CONSULTATION & CONTACT ==================== */

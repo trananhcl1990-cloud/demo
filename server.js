@@ -31,6 +31,12 @@ const server = http.createServer((req, res) => {
     reqPath = '/articles.html';
   } else if (reqPath === '/contact' || reqPath === '/contact/' || reqPath === '/lien-he') {
     reqPath = '/contact.html';
+  } else if (reqPath === '/cart' || reqPath === '/cart/' || reqPath === '/gio-hang' || reqPath === '/gio-hang/') {
+    reqPath = '/cart.html';
+  } else if (reqPath === '/checkout' || reqPath === '/checkout/' || reqPath === '/thanh-toan' || reqPath === '/thanh-toan/') {
+    reqPath = '/checkout.html';
+  } else if (reqPath === '/orders' || reqPath === '/orders/' || reqPath === '/don-hang' || reqPath === '/don-hang/') {
+    reqPath = '/orders.html';
   }
 
   const filePath = path.join(PUBLIC_DIR, reqPath);

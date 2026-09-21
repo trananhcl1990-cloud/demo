@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán Đơn Hàng | CALOHA Natural Health</title>
+  <meta name="description" content="Thanh toán an toàn, bảo mật đơn hàng tinh dầu CALOHA Natural Health. Hỗ trợ VietQR 24/7, COD tận nhà, MoMo và Thẻ Quốc Tế.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Notification Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-notice">
+        🔒 <span>THANH TOÁN BẢO MẬT:</span> Mã hóa SSL 256-bit • Kiểm hàng trước khi thanh toán COD
+      </div>
+      <div class="top-bar-contact">
+        <a href="tel:0988234567">📞 Hỗ trợ đặt hàng: <strong>0988.234.567</strong></a>
+        <a href="orders.html">📦 Đơn hàng của tôi</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <img src="assets/logo.jpg" alt="CALOHA Logo" class="brand-logo-img">
+        <div class="brand-logo-text">
+          <span class="brand-title">CALOHA</span>
+          <span class="brand-subtitle">Natural Health</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="index.html">Trang Chủ</a></li>
+          <li><a class="nav-link" href="catalog.html">Danh Mục Sản Phẩm</a></li>
+          <li><a class="nav-link" href="cart.html">Giỏ Hàng</a></li>
+          <li><a class="nav-link active" href="checkout.html">Thanh Toán</a></li>
+          <li><a class="nav-link" href="orders.html">Đơn Hàng</a></li>
+          <li><a class="nav-link" href="contact.html">Liên Hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="icon-btn" aria-label="Giỏ hàng">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header Banner -->
+  <section class="shop-page-header">
+    <div class="container">
+      <div class="shop-breadcrumbs">
+        <a href="index.html">Trang Chủ</a>
+        <span class="sep">/</span>
+        <a href="cart.html">Giỏ Hàng</a>
+        <span class="sep">/</span>
+        <span class="current">Thanh Toán</span>
+      </div>
+      <h1 class="shop-page-title">Thanh Toán Đơn Hàng</h1>
+      <p class="shop-page-subtitle">Vui lòng điền thông tin người nhận và chọn phương thức thanh toán phù hợp.</p>
+    </div>
+  </section>
+
+  <!-- Checkout Main Container -->
+  <main class="container" style="min-height: 550px;">
+
+    <!-- Checkout Steps Indicator -->
+    <div class="checkout-steps-bar" style="margin-top: 30px;">
+      <a href="cart.html" class="checkout-step completed" style="text-decoration:none;">
+        <span class="step-bubble">✓</span>
+        <span>1. Giỏ Hàng</span>
+      </a>
+      <span class="step-arrow">→</span>
+      <div class="checkout-step active">
+        <span class="step-bubble">2</span>
+        <span>2. Thông Tin & Thanh Toán</span>
+      </div>
+      <span class="step-arrow">→</span>
+      <div class="checkout-step">
+        <span class="step-bubble">3</span>
+        <span>3. Hoàn Tất Đơn Hàng</span>
+      </div>
+    </div>
+
+    <!-- Empty Cart Warning (if user opens checkout with 0 items) -->
+    <div id="checkout-empty-warning" class="empty-cart-view" style="display:none; margin: 30px auto; max-width: 600px;">
+      <div class="empty-cart-icon"><i data-lucide="alert-circle"></i></div>
+      <h2 class="empty-cart-title">Giỏ hàng của bạn đang trống</h2>
+      <p class="empty-cart-desc">Vui lòng chọn ít nhất một sản phẩm tinh dầu trước khi tiến hành thanh toán.</p>
+      <a href="catalog.html" class="btn btn-primary">Khám Phá Sản Phẩm Ngay</a>
+    </div>
+
+    <!-- Checkout Form Grid -->
+    <form id="full-checkout-form" onsubmit="app.handleFullCheckoutSubmit(event)">
+      <div id="checkout-main-grid" class="checkout-layout">
+        
+        <!-- Left Column: Shipping & Payment Information -->
+        <div class="checkout-main-col">
+          
+          <!-- Section 1: Customer & Delivery Address -->
+          <div class="checkout-card-section">
+            <h2 class="checkout-sec-title">
+              <i data-lucide="map-pin"></i> 1. Thông Tin Nhận Hàng
+            </h2>
+
+            <div class="grid-form-2" style="margin-bottom:16px;">
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Họ và tên người nhận *
+                </label>
+                <input type="text" id="checkout-name" class="form-control" required placeholder="Ví dụ: Nguyễn Thị Mai Anh">
+              </div>
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Số điện thoại nhận hàng *
+                </label>
+                <input type="tel" id="checkout-phone" class="form-control" required placeholder="Ví dụ: 0988 123 456">
+              </div>
+            </div>
+
+            <div class="grid-form-2" style="margin-bottom:16px;">
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Email nhận thông báo đơn hàng
+                </label>
+                <input type="email" id="checkout-email" class="form-control" placeholder="Để nhận hóa đơn điện tử...">
+              </div>
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Tỉnh / Thành phố *
+                </label>
+                <select id="checkout-province" class="form-control" required>
+                  <option value="TP. Hồ Chí Minh" selected>TP. Hồ Chí Minh</option>
+                  <option value="Hà Nội">Hà Nội</option>
+                  <option value="Đà Nẵng">Đà Nẵng</option>
+                  <option value="Hải Phòng">Hải Phòng</option>
+                  <option value="Cần Thơ">Cần Thơ</option>
+                  <option value="Bình Dương">Bình Dương</option>
+                  <option value="Đồng Nai">Đồng Nai</option>
+                  <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+                  <option value="Lâm Đồng (Đà Lạt)">Lâm Đồng (Đà Lạt)</option>
+                  <option value="Khánh Hòa (Nha Trang)">Khánh Hòa (Nha Trang)</option>
+                  <option value="Quảng Nam">Quảng Nam</option>
+                  <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+                  <option value="Bắc Ninh">Bắc Ninh</option>
+                  <option value="Quảng Ninh">Quảng Ninh</option>
+                  <option value="Tỉnh thành khác">Tỉnh thành khác</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-form-2" style="margin-bottom:16px;">
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Quận / Huyện
+                </label>
+                <input type="text" id="checkout-district" class="form-control" placeholder="Ví dụ: Quận 1, Cầu Giấy, Hải Châu...">
+              </div>
+              <div class="form-group">
+                <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                  Địa chỉ số nhà, tên đường chi tiết *
+                </label>
+                <input type="text" id="checkout-address" class="form-control" required placeholder="Số nhà, ngõ, tên đường, tòa nhà/căn hộ...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label style="font-weight:600; font-size:0.88rem; color:var(--primary); margin-bottom:6px; display:block;">
+                Ghi chú giao hàng
+              </label>
+              <textarea id="checkout-note" class="form-control" rows="2" placeholder="Ví dụ: Gọi trước khi giao, giao giờ hành chính, đóng gói bọc kỹ chống sốc..."></textarea>
+            </div>
+          </div>
+
+          <!-- Section 2: Shipping Method -->
+          <div class="checkout-card-section">
+            <h2 class="checkout-sec-title">
+              <i data-lucide="truck"></i> 2. Hình Thức Vận Chuyển
+            </h2>
+
+            <div class="shipping-options-list">
+              <label class="shipping-card-option active" data-method="standard" onclick="app.setShippingMethod('standard')">
+                <div class="shipping-left">
+                  <input type="radio" name="shipping-method" value="standard" checked>
+                  <div>
+                    <div class="shipping-title">Giao Hàng Tiêu Chuẩn (2 - 3 ngày)</div>
+                    <div class="shipping-desc">Vận chuyển toàn quốc qua Viettel Post / GHTK. Miễn phí cho đơn từ 500.000đ.</div>
+                  </div>
+                </div>
+                <div class="shipping-fee" id="fee-standard-label">30.000đ</div>
+              </label>
+
+              <label class="shipping-card-option" data-method="express" onclick="app.setShippingMethod('express')">
+                <div class="shipping-left">
+                  <input type="radio" name="shipping-method" value="express">
+                  <div>
+                    <div class="shipping-title">Giao Hỏa Tốc 2H (Nội thành TP.HCM & Hà Nội)</div>
+                    <div class="shipping-desc">Giao nhanh qua GrabExpress / Ahamove nhận ngay trong 2 giờ làm việc.</div>
+                  </div>
+                </div>
+                <div class="shipping-fee">45.000đ</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Section 3: Payment Methods -->
+          <div class="checkout-card-section">
+            <h2 class="checkout-sec-title">
+              <i data-lucide="credit-card"></i> 3. Phương Thức Thanh Toán
+            </h2>
+
+            <div class="payment-methods-list">
+              <!-- Method 1: COD -->
+              <div class="payment-method-card active" data-method="cod">
+                <div class="payment-header-row" onclick="app.setPaymentMethod('cod')">
+                  <div class="payment-title-wrap">
+                    <input type="radio" name="checkout-payment" value="cod" checked>
+                    <div>
+                      <div class="payment-name">Thanh toán khi nhận hàng (COD)</div>
+                      <span style="font-size:0.8rem; color:var(--text-muted);">Kiểm tra hàng thoải mái trước khi thanh toán tiền mặt cho shipper</span>
+                    </div>
+                  </div>
+                  <div class="payment-badges">
+                    <span class="payment-badge-logo">💵 Tiền mặt</span>
+                  </div>
+                </div>
+                <div class="payment-detail-box">
+                  <p style="font-size:0.88rem; color:var(--text-dark); margin:0;">
+                    🌿 Bạn chỉ cần thanh toán khi bưu tá giao hàng tới tận tay. CALOHA khuyến khích bạn kiểm tra kỹ tem niêm phong và sản phẩm trước khi nhận.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Method 2: VietQR Banking -->
+              <div class="payment-method-card" data-method="banking">
+                <div class="payment-header-row" onclick="app.setPaymentMethod('banking')">
+                  <div class="payment-title-wrap">
+                    <input type="radio" name="checkout-payment" value="banking">
+                    <div>
+                      <div class="payment-name">Chuyển khoản Ngân hàng (VietQR 24/7)</div>
+                      <span style="font-size:0.8rem; color:var(--accent); font-weight:600;">⚡ Quét mã QR tự động điền tiền và nội dung</span>
+                    </div>
+                  </div>
+                  <div class="payment-badges">
+                    <span class="payment-badge-logo" style="color:#0066b2;">VietQR</span>
+                    <span class="payment-badge-logo">MBBank</span>
+                  </div>
+                </div>
+                <div class="payment-detail-box">
+                  <div class="vietqr-container">
+                    <div>
+                      <img id="vietqr-image-el" class="vietqr-qr-img" src="https://img.vietqr.io/image/970422-1029384756-compact2.png" alt="Mã VietQR CALOHA">
+                      <div style="font-size:0.75rem; color:var(--text-muted); margin-top:6px; text-align:center;">Mở app ngân hàng để quét mã</div>
+                    </div>
+                    <div class="vietqr-info-table">
+                      <div class="vietqr-row">
+                        <span class="vietqr-label">Ngân hàng:</span>
+                        <span class="vietqr-val">MBBank (Ngân hàng Quân Đội)</span>
+                      </div>
+                      <div class="vietqr-row">
+                        <span class="vietqr-label">Số tài khoản:</span>
+                        <span class="vietqr-val">
+                          <span>1029384756</span>
+                          <button type="button" class="copy-pill-btn" onclick="app.copyToClipboard('1029384756', 'Đã chép số tài khoản!')">Chép</button>
+                        </span>
+                      </div>
+                      <div class="vietqr-row">
+                        <span class="vietqr-label">Chủ tài khoản:</span>
+                        <span class="vietqr-val">CONG TY CO PHAN DUOC LIEU CALOHA</span>
+                      </div>
+                      <div class="vietqr-row">
+                        <span class="vietqr-label">Số tiền:</span>
+                        <span class="vietqr-val" style="color:#b38b2d; font-size:1.05rem;" id="vietqr-amount-val">0đ</span>
+                      </div>
+                      <div class="vietqr-row">
+                        <span class="vietqr-label">Nội dung CK:</span>
+                        <span class="vietqr-val">
+                          <span id="vietqr-syntax-val">CALOHA...</span>
+                          <button type="button" class="copy-pill-btn" onclick="app.copyToClipboard(document.getElementById('vietqr-syntax-val').textContent, 'Đã chép nội dung!')">Chép</button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Method 3: MoMo -->
+              <div class="payment-method-card" data-method="momo">
+                <div class="payment-header-row" onclick="app.setPaymentMethod('momo')">
+                  <div class="payment-title-wrap">
+                    <input type="radio" name="checkout-payment" value="momo">
+                    <div>
+                      <div class="payment-name">Ví điện tử MoMo</div>
+                      <span style="font-size:0.8rem; color:var(--text-muted);">Thanh toán qua app MoMo hoặc quét mã QR MoMo</span>
+                    </div>
+                  </div>
+                  <div class="payment-badges">
+                    <span class="payment-badge-logo" style="background:#a50064; color:#fff;">MoMo</span>
+                  </div>
+                </div>
+                <div class="payment-detail-box">
+                  <p style="font-size:0.88rem; color:var(--text-dark);">
+                    Chuyển tiền MoMo tới số Hotline CALOHA: <strong>0988.234.567</strong> (Tên người nhận: <em>CALOHA OFFICIAL</em>). Đơn hàng sẽ được kích hoạt ngay khi bưu cục nhận tín hiệu thanh toán.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Method 4: Credit / Debit Card -->
+              <div class="payment-method-card" data-method="card">
+                <div class="payment-header-row" onclick="app.setPaymentMethod('card')">
+                  <div class="payment-title-wrap">
+                    <input type="radio" name="checkout-payment" value="card">
+                    <div>
+                      <div class="payment-name">Thẻ Quốc Tế (Visa, MasterCard, JCB)</div>
+                      <span style="font-size:0.8rem; color:var(--text-muted);">Cổng thanh toán bảo mật tiêu chuẩn PCI-DSS</span>
+                    </div>
+                  </div>
+                  <div class="payment-badges">
+                    <span class="payment-badge-logo">VISA</span>
+                    <span class="payment-badge-logo">Mastercard</span>
+                  </div>
+                </div>
+                <div class="payment-detail-box">
+                  <div class="grid-form-2" style="margin-bottom:12px;">
+                    <div class="form-group">
+                      <label style="font-size:0.82rem; font-weight:600; color:var(--text-muted);">Số thẻ</label>
+                      <input type="text" class="form-control" placeholder="4123 •••• •••• 8888">
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:0.82rem; font-weight:600; color:var(--text-muted);">Tên in trên thẻ</label>
+                      <input type="text" class="form-control" placeholder="NGUYEN VAN A">
+                    </div>
+                  </div>
+                  <div class="grid-form-2">
+                    <div class="form-group">
+                      <label style="font-size:0.82rem; font-weight:600; color:var(--text-muted);">Ngày hết hạn (MM/YY)</label>
+                      <input type="text" class="form-control" placeholder="12/28">
+                    </div>
+                    <div class="form-group">
+                      <label style="font-size:0.82rem; font-weight:600; color:var(--text-muted);">Mã CVV</label>
+                      <input type="password" class="form-control" placeholder="•••" maxlength="4">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary & Confirm -->
+        <aside class="checkout-sidebar-col">
+          <div class="cart-summary-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid var(--border-light);">
+              <h2 class="summary-card-title" style="margin:0; padding:0; border:none;">Đơn Hàng Của Bạn</h2>
+              <a href="cart.html" style="font-size:0.82rem; font-weight:600; color:var(--accent); text-decoration:none;">Sửa giỏ hàng</a>
+            </div>
+
+            <!-- Mini Items Preview -->
+            <div id="checkout-mini-items" class="checkout-items-preview">
+              <!-- Rendered by app.renderCheckoutPage() -->
+            </div>
+
+            <!-- Voucher Code Box in Checkout -->
+            <div class="voucher-section" style="margin-top:14px;">
+              <div class="voucher-input-group">
+                <input type="text" id="checkout-voucher-input" placeholder="Mã giảm giá...">
+                <button type="button" class="btn btn-outline" onclick="app.applyVoucherCode(document.getElementById('checkout-voucher-input').value)">Áp Dụng</button>
+              </div>
+            </div>
+
+            <!-- Totals Rows -->
+            <div class="summary-rows-group">
+              <div class="summary-line">
+                <span>Tạm tính:</span>
+                <strong id="checkout-subtotal">0đ</strong>
+              </div>
+              <div class="summary-line highlight" id="checkout-discount-row" style="display:none;">
+                <span>Giảm giá:</span>
+                <strong id="checkout-discount">0đ</strong>
+              </div>
+              <div class="summary-line">
+                <span>Phí vận chuyển:</span>
+                <span id="checkout-shipping">30.000đ</span>
+              </div>
+            </div>
+
+            <div class="summary-line-total">
+              <span>Tổng thanh toán:</span>
+              <span class="total-val" id="checkout-final-total">0đ</span>
+            </div>
+
+            <!-- Policy Check -->
+            <div style="margin:18px 0 20px; font-size:0.82rem; color:var(--text-muted); display:flex; align-items:flex-start; gap:8px;">
+              <input type="checkbox" id="policy-agree" checked required style="margin-top:3px; accent-color:var(--accent);">
+              <label for="policy-agree">
+                Tôi đồng ý với chính sách bán hàng, bảo hành đổi trả 7 ngày và quy định vận chuyển của CALOHA.
+              </label>
+            </div>
+
+            <!-- Big Submit CTA Button -->
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; font-size:1.05rem; padding:15px; justify-content:center;">
+              <i data-lucide="check-circle" style="width:22px; margin-right:8px;"></i> XÁC NHẬN ĐẶT HÀNG
+            </button>
+
+            <!-- Trust Features -->
+            <div class="cart-trust-badges">
+              <div class="trust-badge-item">
+                <i data-lucide="shield-check"></i>
+                <span>Bảo mật thông tin đơn hàng 100%</span>
+              </div>
+              <div class="trust-badge-item">
+                <i data-lucide="phone-call"></i>
+                <span>Chuyên viên CALOHA sẽ gọi xác nhận trong 15 phút</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </form>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-logo" style="margin-bottom:14px;">
+          <img src="assets/logo.jpg" alt="CALOHA Logo" class="brand-logo-img">
+          <div class="brand-logo-text">
+            <span class="brand-title" style="color:#fff;">CALOHA</span>
+            <span class="brand-subtitle" style="color:var(--mint-soft);">Natural Health</span>
+          </div>
+        </div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+          Dược liệu hữu cơ & Tinh dầu nguyên chất 100% đạt chuẩn GC-MS quốc tế. Nâng niu giấc ngủ, giảm áp lực thần kinh và làm sạch môi trường sống.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Showroom & Hỗ Trợ</h4>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:8px;">
+          📍 168 Nguyễn Đình Chiểu, Q.3, TP.HCM
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:8px;">
+          📍 88 Phố Huế, Q. Hai Bà Trưng, Hà Nội
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8);">
+          📞 Hotline: 0988.234.567 (8h00 - 21h30)
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Chính Sách & Tiện Ích</h4>
+        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.88rem;">
+          <li><a href="orders.html" style="color:var(--mint-soft); text-decoration:none;">Tra Cứu Tiến Trình Đơn Hàng</a></li>
+          <li><a href="cart.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Giỏ Hàng Của Bạn</a></li>
+          <li><a href="catalog.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Danh Sách Tinh Dầu 62 Mùi</a></li>
+          <li><a href="about.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Chính Sách Đổi Trả 7 Ngày</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="text-align:center; font-size:0.82rem; color:rgba(255,255,255,0.6);">
+        © 2026 CALOHA Natural Health. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Master Data & Logic -->
+  <script src="data.js"></script>
+  <script src="app.js?v=4"></script>
+</body>
+</html>

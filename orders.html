@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra Cứu & Quản Lý Đơn Hàng | CALOHA Natural Health</title>
+  <meta name="description" content="Tra cứu trạng thái vận chuyển và lịch sử đơn hàng tinh dầu CALOHA Natural Health theo mã đơn hàng hoặc số điện thoại.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Notification Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-notice">
+        📦 <span>TRA CỨU TRỰC TUYẾN:</span> Cập nhật trạng thái đóng gói và hành trình vận chuyển 24/7
+      </div>
+      <div class="top-bar-contact">
+        <a href="tel:0988234567">📞 CSKH: <strong>0988.234.567</strong></a>
+        <a href="catalog.html">🌿 Khám phá sản phẩm</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <img src="assets/logo.jpg" alt="CALOHA Logo" class="brand-logo-img">
+        <div class="brand-logo-text">
+          <span class="brand-title">CALOHA</span>
+          <span class="brand-subtitle">Natural Health</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="index.html">Trang Chủ</a></li>
+          <li><a class="nav-link" href="catalog.html">Danh Mục Sản Phẩm</a></li>
+          <li><a class="nav-link" href="about.html">Giới Thiệu</a></li>
+          <li><a class="nav-link" href="articles.html">Cẩm Nang</a></li>
+          <li><a class="nav-link" href="cart.html">Giỏ Hàng</a></li>
+          <li><a class="nav-link active" href="orders.html">Đơn Hàng</a></li>
+          <li><a class="nav-link" href="contact.html">Liên Hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Live Search -->
+        <div class="search-box-wrap">
+          <i data-lucide="search" class="search-icon-btn"></i>
+          <input type="text" id="header-search-input" class="search-input" placeholder="Tìm tinh dầu, công dụng..." autocomplete="off">
+          <div id="search-dropdown" class="live-search-dropdown"></div>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="cart.html" class="icon-btn" aria-label="Giỏ hàng">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-badge" id="cart-count">0</span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="icon-btn mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-drawer" style="display:none;">
+    <div style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:998;" onclick="app.closeMobileMenu()"></div>
+    <div style="position:fixed; top:0; right:0; width:280px; height:100%; background:#fff; z-index:999; padding:24px; display:flex; flex-direction:column; box-shadow:var(--shadow-lg);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h4 style="margin:0; color:var(--primary);">Menu CALOHA</h4>
+        <button id="close-mobile-menu" style="background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:1rem; font-weight:600;">
+        <a href="index.html">Trang Chủ</a>
+        <a href="catalog.html">Danh Mục Sản Phẩm</a>
+        <a href="cart.html">Giỏ Hàng Của Bạn</a>
+        <a href="checkout.html">Thanh Toán</a>
+        <a href="orders.html" style="color:var(--accent);">Đơn Hàng Của Tôi</a>
+        <a href="about.html">Giới Thiệu</a>
+        <a href="contact.html">Liên Hệ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Header Banner -->
+  <section class="shop-page-header">
+    <div class="container">
+      <div class="shop-breadcrumbs">
+        <a href="index.html">Trang Chủ</a>
+        <span class="sep">/</span>
+        <span class="current">Theo Dõi Đơn Hàng</span>
+      </div>
+      <h1 class="shop-page-title">Quản Lý & Tra Cứu Đơn Hàng</h1>
+      <p class="shop-page-subtitle">Theo dõi trạng thái xử lý, lộ trình giao nhận và xem lại lịch sử các đơn hàng tinh dầu CALOHA của bạn.</p>
+    </div>
+  </section>
+
+  <!-- Main Orders Root Container -->
+  <main class="container" id="orders-page-root" style="padding-top: 36px; padding-bottom: 80px; min-height: 600px;">
+    
+    <!-- Success Celebration Banner (Appears if ?success=true) -->
+    <div id="order-success-banner" class="order-success-celebrate" style="display:none;">
+      <div class="success-icon-badge">
+        <i data-lucide="check"></i>
+      </div>
+      <h2 style="font-family:var(--font-heading); font-size:1.8rem; color:var(--primary); margin-bottom:8px;">
+        🎉 Đặt Hàng Thành Công!
+      </h2>
+      <p style="font-size:0.98rem; color:var(--text-dark); max-width:620px; margin:0 auto 16px; line-height:1.6;">
+        Cảm ơn quý khách đã tin chọn <strong>CALOHA Natural Health</strong>. Đơn hàng của bạn đã được ghi nhận trên hệ thống. Nhân viên phụ trách sẽ gọi điện thoại xác nhận trong vòng 15 phút.
+      </p>
+      <div style="display:inline-flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <a href="#order-detail-container" class="btn btn-primary btn-sm">Xem Chi Tiết Đơn Hàng Vừa Đặt</a>
+        <a href="catalog.html" class="btn btn-outline btn-sm">Tiếp Tục Mua Sắm</a>
+      </div>
+    </div>
+
+    <!-- Quick Lookup Search Box -->
+    <div class="order-lookup-banner">
+      <div style="text-align:center;">
+        <h3 style="font-family:var(--font-heading); color:var(--primary); margin-bottom:6px; font-size:1.35rem;">
+          <i data-lucide="search" style="width:20px; vertical-align:middle; color:var(--accent);"></i> Tra Cứu Nhanh Đơn Hàng
+        </h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin:0;">
+          Nhập <strong>Mã đơn hàng</strong> (ví dụ: ORD-829104) hoặc <strong>Số điện thoại đặt hàng</strong> của bạn:
+        </p>
+      </div>
+
+      <form class="lookup-form-wrap" onsubmit="app.searchOrderByCodeOrPhone(event)">
+        <input type="text" id="order-search-input" placeholder="Nhập mã đơn (VD: ORD-829104) hoặc số điện thoại..." required>
+        <button type="submit" class="btn btn-primary">
+          <i data-lucide="search" style="width:18px; margin-right:6px;"></i> Tra Cứu
+        </button>
+      </form>
+    </div>
+
+    <!-- Not Found Warning Box -->
+    <div id="order-not-found" class="empty-cart-view" style="display:none; margin-bottom:30px;">
+      <div class="empty-cart-icon"><i data-lucide="package-x"></i></div>
+      <h3 style="color:var(--primary);">Không tìm thấy thông tin đơn hàng</h3>
+      <p style="color:var(--text-muted); margin-bottom:16px;">Vui lòng kiểm tra lại mã đơn hàng hoặc số điện thoại đã nhập.</p>
+      <a href="catalog.html" class="btn btn-outline btn-sm">Xem Danh Mục Sản Phẩm</a>
+    </div>
+
+    <!-- Active Order Details View Card -->
+    <div id="order-detail-container" style="display:block;">
+      
+      <!-- Visual Order Tracking Timeline Card -->
+      <div class="tracking-timeline-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border-light);">
+          <div>
+            <span style="font-size:0.85rem; color:var(--text-muted);">Mã đơn hàng:</span>
+            <strong id="order-code-display" style="font-size:1.3rem; color:var(--primary); margin-left:6px;">ORD-XXXXXX</strong>
+            <span style="font-size:0.82rem; color:var(--text-light); margin-left:12px;" id="order-date-display">-</span>
+          </div>
+          <div>
+            <span id="order-status-pill" class="status-pill pending">Chờ xác nhận</span>
+          </div>
+        </div>
+
+        <div style="margin: 16px 0 8px; font-size:0.88rem; font-weight:600; color:var(--primary);">
+          Tiến trình xử lý đơn hàng:
+        </div>
+        
+        <!-- Timeline Nodes -->
+        <div class="timeline-track" id="order-timeline-nodes">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Order Detail Info Grid (Left: Items & Totals, Right: Recipient & Payment) -->
+      <div class="order-detail-grid">
+        
+        <!-- Left: Ordered Products -->
+        <div class="order-card-box">
+          <h3 style="font-family:var(--font-heading); font-size:1.2rem; color:var(--primary); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border-light);">
+            <i data-lucide="package" style="width:18px; color:var(--accent); vertical-align:middle;"></i> Danh Sách Sản Phẩm Trong Đơn
+          </h3>
+
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse;">
+              <thead>
+                <tr style="background:#f8faf9; font-size:0.82rem; color:var(--text-muted); text-transform:uppercase;">
+                  <th style="padding:10px 14px; text-align:left;">Sản phẩm</th>
+                  <th style="padding:10px 14px; text-align:center;">Số lượng</th>
+                  <th style="padding:10px 14px; text-align:right;">Đơn giá</th>
+                  <th style="padding:10px 14px; text-align:right;">Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody id="order-items-tbody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Totals Calculation -->
+          <div style="margin-top:20px; padding-top:16px; border-top:1px dashed var(--border-light); display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:var(--text-muted);">
+              <span>Tạm tính tiền hàng:</span>
+              <span id="order-subtotal-val" style="font-weight:600; color:var(--text-dark);">0đ</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem; color:var(--text-muted);">
+              <span>Phí vận chuyển:</span>
+              <span id="order-shipping-val" style="font-weight:600; color:var(--text-dark);">0đ</span>
+            </div>
+            <div id="order-discount-row" style="display:none; justify-content:space-between; font-size:0.9rem; color:var(--accent); font-weight:600;">
+              <span>Giảm giá khuyến mãi:</span>
+              <span id="order-discount-val">-0đ</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:1.25rem; font-weight:700; color:var(--primary); margin-top:8px; padding-top:10px; border-top:1px solid var(--border-light);">
+              <span>Tổng thanh toán:</span>
+              <span id="order-total-val" style="color:#b38b2d;">0đ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Recipient & Shipping Information -->
+        <div class="order-card-box">
+          <h3 style="font-family:var(--font-heading); font-size:1.2rem; color:var(--primary); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border-light);">
+            <i data-lucide="user-check" style="width:18px; color:var(--accent); vertical-align:middle;"></i> Thông Tin Giao Nhận
+          </h3>
+
+          <div style="display:flex; flex-direction:column; gap:14px; font-size:0.9rem;">
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Người nhận:</span>
+              <strong id="order-recipient-name" style="color:var(--primary); font-size:0.98rem;">-</strong>
+            </div>
+
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Số điện thoại:</span>
+              <span id="order-recipient-phone" style="font-weight:600; color:var(--text-dark);">-</span>
+            </div>
+
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Địa chỉ nhận hàng:</span>
+              <span id="order-recipient-address" style="color:var(--text-dark); line-height:1.5;">-</span>
+            </div>
+
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Hình thức vận chuyển:</span>
+              <span id="order-shipping-method" style="font-weight:600; color:var(--accent);">-</span>
+            </div>
+
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Phương thức thanh toán:</span>
+              <span id="order-payment-method" style="font-weight:600; color:var(--primary);">-</span>
+            </div>
+
+            <div>
+              <span style="display:block; font-size:0.8rem; color:var(--text-muted);">Ghi chú đơn hàng:</span>
+              <em id="order-recipient-note" style="color:var(--text-muted);">-</em>
+            </div>
+          </div>
+
+          <!-- Order Actions Group -->
+          <div style="margin-top:24px; padding-top:18px; border-top:1px solid var(--border-light); display:flex; flex-direction:column; gap:10px;" class="no-print">
+            <button type="button" class="btn btn-outline" style="width:100%; justify-content:center;" onclick="app.printOrderInvoice()">
+              <i data-lucide="printer" style="width:18px; margin-right:8px;"></i> In Hóa Đơn / Phiếu Giao Hàng
+            </button>
+            <button type="button" class="btn btn-primary" id="order-reorder-btn" style="width:100%; justify-content:center;">
+              <i data-lucide="rotate-cw" style="width:18px; margin-right:8px;"></i> Mua Lại Đơn Hàng Này
+            </button>
+            <button type="button" class="btn btn-outline" id="order-cancel-btn" style="width:100%; justify-content:center; color:#dc3545; border-color:#fed7d7; display:none;">
+              <i data-lucide="x-circle" style="width:18px; margin-right:8px;"></i> Yêu Cầu Hủy Đơn Hàng
+            </button>
+            <a href="https://zalo.me/0988234567" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width:100%; justify-content:center; text-decoration:none; color:#0068ff; border-color:#bee3f8;">
+              <i data-lucide="message-circle" style="width:18px; margin-right:8px;"></i> Cần Hỗ Trợ Đơn Hàng Qua Zalo
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Order History List on This Device -->
+    <div class="order-card-box" style="margin-top:40px;">
+      <h3 style="font-family:var(--font-heading); font-size:1.35rem; color:var(--primary); margin-bottom:8px;">
+        <i data-lucide="clock" style="width:20px; color:var(--accent); vertical-align:middle;"></i> Lịch Sử Các Đơn Hàng Của Bạn
+      </h3>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:18px;">
+        Danh sách tất cả các đơn hàng đã đặt trên trình duyệt này. Bấm vào nút <strong>Chi tiết</strong> để kiểm tra tiến trình từng đơn.
+      </p>
+
+      <div style="overflow-x:auto;">
+        <table class="orders-history-table">
+          <thead>
+            <tr>
+              <th>Mã Đơn</th>
+              <th>Thời Gian</th>
+              <th>Số Lượng</th>
+              <th>Tổng Tiền</th>
+              <th>Trạng Thái</th>
+              <th>Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="orders-history-tbody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-logo" style="margin-bottom:14px;">
+          <img src="assets/logo.jpg" alt="CALOHA Logo" class="brand-logo-img">
+          <div class="brand-logo-text">
+            <span class="brand-title" style="color:#fff;">CALOHA</span>
+            <span class="brand-subtitle" style="color:var(--mint-soft);">Natural Health</span>
+          </div>
+        </div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+          Dược liệu hữu cơ & Tinh dầu nguyên chất 100% đạt chuẩn GC-MS quốc tế. Chữa lành và nuôi dưỡng thân tâm trí mỗi ngày.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Trung Tâm Chăm Sóc Khách Hàng</h4>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:8px;">
+          📞 Hotline khiếu nại & hủy đơn: <strong>0988.234.567</strong>
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:8px;">
+          📧 Email tiếp nhận: contact@caloha.vn
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8);">
+          ⏰ Thời gian phục vụ: 8:00 - 21:30 (Thứ 2 - Chủ Nhật)
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Liên Kết Trang</h4>
+        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.88rem;">
+          <li><a href="catalog.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Danh Sách 62 Loại Tinh Dầu</a></li>
+          <li><a href="cart.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Xem Giỏ Hàng</a></li>
+          <li><a href="checkout.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Thanh Toán Trực Tuyến</a></li>
+          <li><a href="articles.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Cẩm Nang Sức Khỏe & Trị Liệu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="text-align:center; font-size:0.82rem; color:rgba(255,255,255,0.6);">
+        © 2026 CALOHA Natural Health. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Master Data & Logic -->
+  <script src="data.js"></script>
+  <script src="app.js?v=4"></script>
+</body>
+</html>

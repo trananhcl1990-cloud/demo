@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ Hàng Của Bạn | CALOHA Natural Health</title>
+  <meta name="description" content="Xem và quản lý các sản phẩm tinh dầu thiên nhiên nguyên chất và dầu nền hữu cơ trong giỏ hàng CALOHA. Miễn phí vận chuyển từ 500.000đ.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Notification Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-notice">
+        🌿 <span>ƯU ĐÃI ĐẶC BIỆT:</span> Miễn phí giao hàng toàn quốc cho đơn từ 500.000đ • Cam kết 100% nguyên chất hữu cơ
+      </div>
+      <div class="top-bar-contact">
+        <a href="tel:0988234567">📞 Hotline: <strong>0988.234.567</strong></a>
+        <a href="orders.html">📦 Tra cứu đơn hàng</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="container header-inner">
+      <!-- Logo -->
+      <a href="index.html" class="brand-logo" style="text-decoration:none;">
+        <img src="assets/logo.jpg" alt="CALOHA Natural health Logo" class="brand-logo-img">
+        <div class="brand-logo-text">
+          <span class="brand-title">CALOHA</span>
+          <span class="brand-subtitle">Natural Health</span>
+        </div>
+      </a>
+
+      <!-- Nav Menu -->
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="index.html">Trang Chủ</a></li>
+          <li><a class="nav-link" href="catalog.html">Danh Mục Sản Phẩm</a></li>
+          <li><a class="nav-link" href="about.html">Giới Thiệu</a></li>
+          <li><a class="nav-link" href="articles.html">Kiến Thức & Cẩm Nang</a></li>
+          <li><a class="nav-link" href="contact.html">Liên Hệ</a></li>
+          <li><a class="nav-link" href="orders.html">Đơn Hàng</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Live Search -->
+        <div class="search-box-wrap">
+          <i data-lucide="search" class="search-icon-btn"></i>
+          <input type="text" id="header-search-input" class="search-input" placeholder="Tìm tinh dầu, công dụng..." autocomplete="off">
+          <div id="search-dropdown" class="live-search-dropdown"></div>
+        </div>
+
+        <!-- Cart Button -->
+        <button class="icon-btn" id="open-cart-btn" aria-label="Giỏ hàng">
+          <i data-lucide="shopping-bag"></i>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+
+        <!-- Mobile Toggle -->
+        <button class="icon-btn mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Mở menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-drawer" style="display:none;">
+    <div style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:998;" onclick="app.closeMobileMenu()"></div>
+    <div style="position:fixed; top:0; right:0; width:280px; height:100%; background:#fff; z-index:999; padding:24px; display:flex; flex-direction:column; box-shadow:var(--shadow-lg);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <h4 style="margin:0; color:var(--primary);">Menu CALOHA</h4>
+        <button id="close-mobile-menu" style="background:none; border:none; font-size:1.4rem; cursor:pointer;">&times;</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; font-size:1rem; font-weight:600;">
+        <a href="index.html">Trang Chủ</a>
+        <a href="catalog.html">Danh Mục Sản Phẩm (62 Loại)</a>
+        <a href="cart.html" style="color:var(--accent);">Giỏ Hàng Của Bạn</a>
+        <a href="checkout.html">Thanh Toán Đơn Hàng</a>
+        <a href="orders.html">Theo Dõi Đơn Hàng</a>
+        <a href="about.html">Giới Thiệu CALOHA</a>
+        <a href="articles.html">Cẩm Nang & Trị Liệu</a>
+        <a href="contact.html">Liên Hệ & Showroom</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Header Banner -->
+  <section class="shop-page-header">
+    <div class="container">
+      <div class="shop-breadcrumbs">
+        <a href="index.html">Trang Chủ</a>
+        <span class="sep">/</span>
+        <span class="current">Giỏ Hàng</span>
+      </div>
+      <h1 class="shop-page-title">Giỏ Hàng Của Bạn</h1>
+      <p class="shop-page-subtitle">Kiểm tra số lượng và áp dụng mã giảm giá trước khi tiến hành thanh toán.</p>
+    </div>
+  </section>
+
+  <!-- Main Cart Container -->
+  <main class="container" style="min-height: 520px;">
+    
+    <!-- Empty Cart View (Hidden if cart has items) -->
+    <div id="cart-empty-view" class="empty-cart-view" style="display: none; margin: 40px auto; max-width: 680px;">
+      <div class="empty-cart-icon">
+        <i data-lucide="shopping-bag"></i>
+      </div>
+      <h2 class="empty-cart-title">Giỏ hàng của bạn đang trống</h2>
+      <p class="empty-cart-desc">Bạn chưa chọn sản phẩm tinh dầu nào. Hãy dạo quanh danh mục 62 dòng tinh dầu và dầu nền dược liệu organic của CALOHA để nâng niu sức khỏe nhé!</p>
+      <a href="catalog.html" class="btn btn-primary btn-lg">
+        <i data-lucide="compass" style="width:20px; margin-right:8px;"></i> Khám Phá 62 Loại Tinh Dầu
+      </a>
+    </div>
+
+    <!-- Active Cart Layout -->
+    <div id="cart-content-layout" class="cart-layout">
+      <!-- Left Column: Table & Items -->
+      <div class="cart-left-col">
+        
+        <!-- Free Shipping Progress Banner -->
+        <div class="cart-freeship-banner">
+          <div class="freeship-message" id="cart-freeship-msg">
+            🚚 Đang tính toán điều kiện miễn phí giao hàng...
+          </div>
+          <div class="freeship-progress-track">
+            <div class="freeship-progress-bar" id="cart-freeship-progress" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="cart-main-card">
+          <div class="cart-table-wrap">
+            <table class="cart-table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Đơn giá</th>
+                  <th style="text-align:center;">Số lượng</th>
+                  <th>Thành tiền</th>
+                  <th style="width: 48px;"></th>
+                </tr>
+              </thead>
+              <tbody id="cart-page-tbody">
+                <!-- Rendered dynamically by app.renderCartPage() -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cart Actions -->
+          <div class="cart-actions-bar">
+            <a href="catalog.html" class="btn btn-outline btn-sm">
+              <i data-lucide="arrow-left" style="width:16px; margin-right:6px;"></i> Tiếp Tục Mua Sắm
+            </a>
+            <button type="button" class="btn btn-outline btn-sm" style="color:#dc3545; border-color:#fed7d7;" onclick="app.clearEntireCart()">
+              <i data-lucide="trash-2" style="width:16px; margin-right:6px;"></i> Xóa Tất Cả
+            </button>
+          </div>
+        </div>
+
+        <!-- Note Box -->
+        <div class="cart-note-box">
+          <label for="page-cart-note">
+            <i data-lucide="file-text" style="width:16px; vertical-align:middle; margin-right:4px; color:var(--accent);"></i> Ghi chú đơn hàng cho CALOHA:
+          </label>
+          <textarea id="page-cart-note" rows="2" placeholder="Ví dụ: Giao giờ hành chính, đóng gói quà sinh nhật, hướng dẫn pha chế riêng..." oninput="app.saveCartNote(this.value)"></textarea>
+        </div>
+      </div>
+
+      <!-- Right Column: Sticky Summary & Checkout -->
+      <aside class="cart-right-col">
+        <div class="cart-summary-card">
+          <h2 class="summary-card-title">Tóm Tắt Đơn Hàng</h2>
+
+          <!-- Voucher Code Box -->
+          <div class="voucher-section">
+            <label style="display:block; font-size:0.86rem; font-weight:600; color:var(--primary); margin-bottom:6px;">
+              Mã giảm giá / Voucher:
+            </label>
+            <div class="voucher-input-group">
+              <input type="text" id="voucher-code-input" placeholder="Nhập mã ưu đãi...">
+              <button type="button" class="btn btn-primary" onclick="app.applyVoucherCode()">Áp Dụng</button>
+            </div>
+            
+            <!-- Quick Voucher Chips -->
+            <div class="hot-vouchers-chips">
+              <span class="voucher-chip" onclick="app.applyVoucherCode('CALOHA10')" title="Bấm để dùng ngay">🎟️ CALOHA10 (-10%)</span>
+              <span class="voucher-chip" onclick="app.applyVoucherCode('FREESHIP')" title="Bấm để dùng ngay">🚚 FREESHIP</span>
+              <span class="voucher-chip" onclick="app.applyVoucherCode('HUONGTHO50K')" title="Bấm để dùng ngay">🌿 HUONGTHO50K</span>
+            </div>
+
+            <!-- Applied Voucher Notice -->
+            <div id="page-cart-applied-voucher"></div>
+          </div>
+
+          <!-- Totals Rows -->
+          <div class="summary-rows-group">
+            <div class="summary-line">
+              <span>Tạm tính:</span>
+              <strong id="page-cart-subtotal">0đ</strong>
+            </div>
+            <div class="summary-line highlight" id="page-cart-discount-row" style="display:none;">
+              <span>Giảm giá voucher:</span>
+              <strong id="page-cart-discount">0đ</strong>
+            </div>
+            <div class="summary-line">
+              <span>Phí vận chuyển:</span>
+              <span id="page-cart-shipping">30.000đ</span>
+            </div>
+          </div>
+
+          <div class="summary-line-total">
+            <span>Tổng thanh toán:</span>
+            <span class="total-val" id="page-cart-total">0đ</span>
+          </div>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin: 6px 0 20px;">(Đã bao gồm thuế GTGT & đóng gói tiêu chuẩn chống va đập)</p>
+
+          <!-- Checkout CTA -->
+          <a href="checkout.html" class="btn btn-primary btn-lg" style="width:100%; text-align:center; justify-content:center; text-decoration:none;">
+            Tiến Hành Thanh Toán <i data-lucide="arrow-right" style="width:20px; margin-left:8px;"></i>
+          </a>
+
+          <!-- Trust Badges -->
+          <div class="cart-trust-badges">
+            <div class="trust-badge-item">
+              <i data-lucide="shield-check"></i>
+              <span>Cam kết 100% tinh dầu thiên nhiên nguyên chất</span>
+            </div>
+            <div class="trust-badge-item">
+              <i data-lucide="truck"></i>
+              <span>Giao hàng toàn quốc - Kiểm hàng trước khi trả tiền</span>
+            </div>
+            <div class="trust-badge-item">
+              <i data-lucide="rotate-ccw"></i>
+              <span>Đổi trả linh hoạt trong vòng 7 ngày</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-logo" style="margin-bottom:14px;">
+          <img src="assets/logo.jpg" alt="CALOHA Logo" class="brand-logo-img">
+          <div class="brand-logo-text">
+            <span class="brand-title" style="color:#fff;">CALOHA</span>
+            <span class="brand-subtitle" style="color:var(--mint-soft);">Natural Health</span>
+          </div>
+        </div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.6;">
+          Thương hiệu chuyên biệt về dòng tinh dầu thảo mộc và dược liệu trị liệu nguyên chất 100%. Nâng niu sức khỏe toàn diện từ thiên nhiên.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Hệ Thống Phân Phối</h4>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:10px;">
+          <strong>Showroom HCM:</strong> 168 Nguyễn Đình Chiểu, P. Võ Thị Sáu, Q.3, TP.HCM
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8); margin-bottom:10px;">
+          <strong>Showroom HN:</strong> 88 Phố Huế, P. Ngô Thì Nhậm, Q. Hai Bà Trưng, Hà Nội
+        </p>
+        <p style="font-size:0.86rem; color:rgba(255,255,255,0.8);">
+          <strong>Hotline:</strong> 0988.234.567 (8h00 - 21h30)
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Liên Kết Nhanh</h4>
+        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.88rem;">
+          <li><a href="catalog.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Danh Mục 62 Sản Phẩm</a></li>
+          <li><a href="cart.html" style="color:var(--mint-soft); text-decoration:none;">Giỏ Hàng Của Bạn</a></li>
+          <li><a href="checkout.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Thanh Toán Trực Tuyến</a></li>
+          <li><a href="orders.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Theo Dõi Đơn Hàng</a></li>
+          <li><a href="articles.html" style="color:rgba(255,255,255,0.8); text-decoration:none;">Kiến Thức Tinh Dầu</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="text-align:center; font-size:0.82rem; color:rgba(255,255,255,0.6);">
+        © 2026 CALOHA Natural Health. Bảo lưu mọi quyền.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Contact Buttons Bar -->
+  <div class="floating-contact-bar" id="floating-contact-bar">
+    <a href="tel:0988234567" class="fc-btn fc-btn-phone" id="fc-btn-phone" aria-label="Gọi điện thoại ngay" title="Hotline 24/7">
+      <div class="fc-phone-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+      </div>
+      <div class="fc-phone-wave"></div>
+      <div class="fc-phone-wave-2"></div>
+      <span class="fc-tooltip">Hotline 0988.234.567</span>
+    </a>
+
+    <a href="https://zalo.me/0988234567" target="_blank" rel="noopener noreferrer" class="fc-btn fc-btn-zalo" id="fc-btn-zalo" aria-label="Chat qua Zalo" title="Tư vấn Zalo">
+      <svg viewBox="0 0 48 48" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4C13.5 4 5 11.8 5 21.5C5 26.8 7.7 31.5 12 34.7V42L18.8 38.3C20.4 38.8 22.2 39 24 39C34.5 39 43 31.2 43 21.5C43 11.8 34.5 4 24 4Z" fill="#0068FF"/>
+        <path d="M14 27V16H17.5L22 23V16H25V27H21.5L17 20V27H14Z" fill="#FFFFFF"/>
+      </svg>
+      <span class="fc-tooltip">Chat Zalo</span>
+    </a>
+
+    <button type="button" class="fc-btn fc-btn-top" id="fc-btn-top" aria-label="Lên đầu trang" title="Lên đầu trang" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+      <span class="fc-tooltip">Lên đầu trang</span>
+    </button>
+  </div>
+
+  <!-- Cart Drawer (for side preview) -->
+  <div id="cart-drawer-backdrop" class="cart-drawer-backdrop" onclick="app.closeCart()"></div>
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h3>Giỏ Hàng Của Bạn (<span id="drawer-item-count">0</span>)</h3>
+      <button class="icon-btn" onclick="app.closeCart()">&times;</button>
+    </div>
+    <div class="cart-items-list" id="cart-items-container"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-summary-row">
+        <span>Tạm tính:</span>
+        <span id="cart-subtotal-display">0đ</span>
+      </div>
+      <div class="cart-summary-row" style="color:var(--accent);">
+        <span>Phí vận chuyển:</span>
+        <span id="cart-shipping-display">Miễn phí</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Tổng cộng:</span>
+        <span id="cart-total-display">0đ</span>
+      </div>
+      <a href="checkout.html" class="btn btn-primary" style="width:100%; text-align:center; text-decoration:none; display:block;">
+        Tiến Hành Đặt Hàng Ngay <i data-lucide="arrow-right" style="width:18px;"></i>
+      </a>
+      <a href="cart.html" class="btn btn-outline" style="width:100%; text-align:center; margin-top:8px; text-decoration:none; display:block;">
+        Xem Giỏ Hàng Chi Tiết
+      </a>
+    </div>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Master Data & Application Logic -->
+  <script src="data.js"></script>
+  <script src="app.js?v=4"></script>
+</body>
+</html>
