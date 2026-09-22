@@ -188,6 +188,7 @@ class CalohaApp {
     this.initCheckoutPage();
     this.initOrdersPage();
     this.initAdminPage();
+    this.initSingleBlogPage();
 
     // Sync radio buttons if filtered by query param
     if (this.catalogFilters.category !== 'all') {
@@ -840,30 +841,57 @@ class CalohaApp {
   /* ==================== ARTICLES VIEW ==================== */
   renderArticles() {
     const fullGrid = document.getElementById('full-articles-grid');
-    if (!fullGrid) return;
+    if (fullGrid) {
+      let list = [...this.articles];
+      if (this.activeArticleCategory !== 'all') {
+        list = list.filter(a => a.category === this.activeArticleCategory);
+      }
 
-    let list = [...this.articles];
-    if (this.activeArticleCategory !== 'all') {
-      list = list.filter(a => a.category === this.activeArticleCategory);
+      fullGrid.innerHTML = list.map(art => `
+        <div class="article-card" onclick="window.location.href='single-blog.html?id=${art.id}'">
+          <div class="article-img-wrap">
+            <img src="${art.image}" alt="${art.title}" class="article-img" loading="lazy" onerror="this.src='assets/story_distillation.jpg'">
+            <span class="article-badge" style="position:absolute; top:12px; left:12px; background:var(--primary); color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75rem; font-weight:700;">${art.category}</span>
+          </div>
+          <div class="article-content">
+            <div class="article-meta">
+              <span><i data-lucide="calendar" style="width:13px;"></i> ${art.date}</span>
+              <span><i data-lucide="clock" style="width:13px;"></i> ${art.readTime}</span>
+            </div>
+            <h3 class="article-title">${art.title}</h3>
+            <p class="article-desc">${art.excerpt || art.summary}</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:12px;">
+              <a href="single-blog.html?id=${art.id}" class="article-more" onclick="event.stopPropagation()">Đọc bài viết chi tiết &rarr;</a>
+              <button class="btn btn-outline btn-sm" style="padding:4px 8px; font-size:0.75rem;" onclick="event.stopPropagation(); app.openArticleModal('${art.id}')" title="Xem nhanh tóm tắt">Xem nhanh</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
-    fullGrid.innerHTML = list.map(art => `
-      <div class="article-card" onclick="app.openArticleModal('${art.id}')">
-        <div class="article-img-wrap">
-          <img src="${art.image}" alt="${art.title}" class="article-img" loading="lazy" onerror="this.src='assets/story_distillation.jpg'">
-          <span class="article-badge" style="position:absolute; top:12px; left:12px; background:var(--primary); color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75rem; font-weight:700;">${art.category}</span>
-        </div>
-        <div class="article-content">
-          <div class="article-meta">
-            <span><i data-lucide="calendar" style="width:13px;"></i> ${art.date}</span>
-            <span><i data-lucide="clock" style="width:13px;"></i> ${art.readTime}</span>
+    // Also populate home page articles grid if present
+    const homeGrid = document.getElementById('home-articles-grid');
+    if (homeGrid) {
+      homeGrid.innerHTML = this.articles.slice(0, 4).map(art => `
+        <div class="article-card" onclick="window.location.href='single-blog.html?id=${art.id}'">
+          <div class="article-img-wrap">
+            <img src="${art.image}" alt="${art.title}" class="article-img" loading="lazy" onerror="this.src='assets/story_distillation.jpg'">
+            <span class="article-badge" style="position:absolute; top:12px; left:12px; background:var(--primary); color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75rem; font-weight:700;">${art.category}</span>
           </div>
-          <h3 class="article-title">${art.title}</h3>
-          <p class="article-desc">${art.excerpt}</p>
-          <span class="article-more">Đọc bài viết chi tiết &rarr;</span>
+          <div class="article-content">
+            <div class="article-meta">
+              <span><i data-lucide="calendar" style="width:13px;"></i> ${art.date}</span>
+              <span><i data-lucide="clock" style="width:13px;"></i> ${art.readTime}</span>
+            </div>
+            <h3 class="article-title">${art.title}</h3>
+            <p class="article-desc">${art.excerpt || art.summary}</p>
+            <div style="margin-top:auto; padding-top:10px;">
+              <a href="single-blog.html?id=${art.id}" class="article-more" onclick="event.stopPropagation()">Đọc bài viết chi tiết &rarr;</a>
+            </div>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+    }
 
     if (window.lucide) window.lucide.createIcons();
   }
@@ -908,9 +936,9 @@ class CalohaApp {
       <div style="font-size:0.95rem; line-height:1.8; color:var(--text-dark);">
         ${art.content}
       </div>
-      <div style="margin-top:30px; padding-top:20px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:0.85rem; color:var(--text-muted);">CALOHA Aromatherapy Knowledge Base</span>
-        <button class="btn btn-primary btn-sm" onclick="app.navigate('catalog'); app.closeArticleModal();">Xem Sản Phẩm Tinh Dầu</button>
+      <div style="margin-top:30px; padding-top:20px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <a href="single-blog.html?id=${art.id}" class="btn btn-primary btn-sm">Mở Trang Bài Viết Đầy Đủ &rarr;</a>
+        <button class="btn btn-outline btn-sm" onclick="app.closeArticleModal();">Đóng</button>
       </div>
     `;
 
@@ -920,6 +948,398 @@ class CalohaApp {
   closeArticleModal() {
     const modal = document.getElementById('article-reader-modal');
     if (modal) modal.classList.remove('active');
+  }
+
+  /* ==================== SINGLE BLOG PAGE CONTROLLER ==================== */
+  initSingleBlogPage() {
+    const mainEl = document.getElementById('single-blog-article');
+    if (!mainEl) return;
+
+    // Get article ID from URL query param ?id=...
+    let artId = null;
+    if (typeof window !== 'undefined' && window.location && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      artId = params.get('id') || params.get('article') || params.get('post');
+    }
+
+    let article = this.articles.find(a => a.id === artId);
+    if (!article) {
+      article = this.articles[0]; // default to first article
+    }
+    if (!article) return;
+
+    this.currentArticleId = article.id;
+
+    // 1. Breadcrumbs
+    const breadcrumbCat = document.getElementById('blog-breadcrumb-cat');
+    if (breadcrumbCat) {
+      breadcrumbCat.textContent = article.category;
+      breadcrumbCat.href = 'articles.html?articleCat=' + encodeURIComponent(article.category);
+    }
+    const breadcrumbTitle = document.getElementById('blog-breadcrumb-title');
+    if (breadcrumbTitle) {
+      breadcrumbTitle.textContent = article.title;
+    }
+
+    // 2. Category badge & Title
+    const catBadge = document.getElementById('blog-cat-badge');
+    if (catBadge) {
+      catBadge.textContent = '🌿 ' + article.category;
+      catBadge.href = 'articles.html?articleCat=' + encodeURIComponent(article.category);
+    }
+    const titleEl = document.getElementById('blog-post-title');
+    if (titleEl) {
+      titleEl.textContent = article.title;
+      document.title = `${article.title} | CALOHA Natural Health`;
+    }
+
+    // 3. Meta information
+    const authorAvatar = document.getElementById('blog-author-avatar');
+    if (authorAvatar) authorAvatar.src = article.authorAvatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80';
+    const authorName = document.getElementById('blog-author-name');
+    if (authorName) authorName.textContent = article.author || 'ThS. DS. Đặng Thu Hà';
+    const authorRole = document.getElementById('blog-author-role');
+    if (authorRole) authorRole.textContent = article.authorRole || 'Chuyên gia Trị liệu Mùi hương CALOHA';
+
+    const dateEl = document.getElementById('blog-date');
+    if (dateEl) dateEl.textContent = article.date;
+    const readTimeEl = document.getElementById('blog-read-time');
+    if (readTimeEl) readTimeEl.textContent = article.readTime;
+    const viewsEl = document.getElementById('blog-views');
+    if (viewsEl) viewsEl.textContent = (article.views || 1840).toLocaleString('vi-VN') + ' lượt xem';
+
+    // 4. Hero image
+    const heroImg = document.getElementById('blog-hero-img');
+    if (heroImg) {
+      heroImg.src = article.image;
+      heroImg.alt = article.title;
+      heroImg.onerror = () => { heroImg.src = 'assets/story_distillation.jpg'; };
+    }
+    const heroCaption = document.getElementById('blog-hero-caption');
+    if (heroCaption) {
+      heroCaption.innerHTML = `<i data-lucide="camera" style="width:14px; margin-right:4px;"></i> Hình ảnh: Tinh dầu thiên nhiên nguyên chất CALOHA - Chứng nhận hữu cơ quốc tế.`;
+    }
+
+    // 5. Table of Contents
+    const tocContainer = document.getElementById('blog-toc-list');
+    if (tocContainer) {
+      if (article.toc && article.toc.length) {
+        tocContainer.innerHTML = article.toc.map(item => `
+          <li><a href="#${item.id}">${item.title}</a></li>
+        `).join('');
+      } else {
+        tocContainer.innerHTML = `
+          <li><a href="#xuat-xu">1. Nguồn gốc và đặc tính nguyên liệu</a></li>
+          <li><a href="#tri-lieu">2. Tác dụng trị liệu tinh thần (Aromatherapy)</a></li>
+          <li><a href="#ung-dung">3. Hướng dẫn ứng dụng thực tế & Lưu ý an toàn</a></li>
+        `;
+      }
+    }
+
+    // 6. Content Body
+    const bodyEl = document.getElementById('blog-post-content');
+    if (bodyEl) {
+      bodyEl.innerHTML = article.content;
+    }
+
+    // 7. Tags
+    const tagsWrap = document.getElementById('blog-tags-list');
+    if (tagsWrap) {
+      const tags = article.tags || ['TinhDau', 'Aromatherapy', 'Organic', 'Caloha'];
+      tagsWrap.innerHTML = tags.map(t => `<a href="articles.html?search=${encodeURIComponent(t)}" class="blog-tag-pill">#${t}</a>`).join('');
+    }
+
+    // 8. Like Button & Rating
+    const likeBtn = document.getElementById('blog-like-btn');
+    const likeCountEl = document.getElementById('blog-like-count');
+    const isLiked = localStorage.getItem('caloha_liked_' + article.id) === 'true';
+    let currentLikes = article.likes || 156;
+    if (isLiked) currentLikes += 1;
+    if (likeCountEl) likeCountEl.textContent = currentLikes;
+    if (likeBtn) {
+      if (isLiked) likeBtn.classList.add('liked');
+      else likeBtn.classList.remove('liked');
+    }
+
+    // Setup Rating
+    const savedRating = localStorage.getItem('caloha_rated_' + article.id) || '5';
+    this.highlightStars(parseInt(savedRating, 10));
+
+    // 9. Author Bio Card
+    const authorBioImg = document.getElementById('blog-bio-avatar');
+    if (authorBioImg) authorBioImg.src = article.authorAvatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80';
+    const authorBioName = document.getElementById('blog-bio-name');
+    if (authorBioName) authorBioName.textContent = article.author || 'ThS. DS. Đặng Thu Hà';
+    const authorBioRole = document.getElementById('blog-bio-role');
+    if (authorBioRole) authorBioRole.textContent = article.authorRole || 'Ban Cố Vấn Dược Liệu CALOHA';
+
+    // 10. Prev / Next Article Navigation
+    const currentIndex = this.articles.findIndex(a => a.id === article.id);
+    const prevIndex = (currentIndex - 1 + this.articles.length) % this.articles.length;
+    const nextIndex = (currentIndex + 1) % this.articles.length;
+    const prevArt = this.articles[prevIndex];
+    const nextArt = this.articles[nextIndex];
+
+    const prevCard = document.getElementById('blog-nav-prev');
+    if (prevCard && prevArt) {
+      prevCard.href = `single-blog.html?id=${prevArt.id}`;
+      prevCard.innerHTML = `
+        <img src="${prevArt.image}" alt="${prevArt.title}" onerror="this.src='assets/story_distillation.jpg'">
+        <div class="blog-nav-card-info">
+          <span>&larr; Bài Trước</span>
+          <h5>${prevArt.title}</h5>
+        </div>
+      `;
+    }
+
+    const nextCard = document.getElementById('blog-nav-next');
+    if (nextCard && nextArt) {
+      nextCard.href = `single-blog.html?id=${nextArt.id}`;
+      nextCard.innerHTML = `
+        <div class="blog-nav-card-info" style="text-align:right;">
+          <span>Bài Tiếp Theo &rarr;</span>
+          <h5>${nextArt.title}</h5>
+        </div>
+        <img src="${nextArt.image}" alt="${nextArt.title}" onerror="this.src='assets/story_distillation.jpg'">
+      `;
+    }
+
+    // 11. Comments Rendering
+    this.renderArticleComments(article.id);
+
+    // 12. Related Articles Grid (3 cards)
+    const relatedGrid = document.getElementById('blog-related-grid');
+    if (relatedGrid) {
+      const otherArticles = this.articles.filter(a => a.id !== article.id).slice(0, 3);
+      relatedGrid.innerHTML = otherArticles.map(a => `
+        <div class="article-card" onclick="window.location.href='single-blog.html?id=${a.id}'">
+          <div class="article-img-wrap">
+            <img src="${a.image}" alt="${a.title}" class="article-img" loading="lazy" onerror="this.src='assets/story_distillation.jpg'">
+            <span class="article-badge" style="position:absolute; top:12px; left:12px; background:var(--primary); color:#fff; padding:4px 10px; border-radius:20px; font-size:0.75rem; font-weight:700;">${a.category}</span>
+          </div>
+          <div class="article-content">
+            <div class="article-meta">
+              <span><i data-lucide="calendar" style="width:13px;"></i> ${a.date}</span>
+              <span><i data-lucide="clock" style="width:13px;"></i> ${a.readTime}</span>
+            </div>
+            <h3 class="article-title">${a.title}</h3>
+            <p class="article-desc">${a.excerpt || a.summary}</p>
+            <a href="single-blog.html?id=${a.id}" class="article-more" onclick="event.stopPropagation()">Đọc bài viết chi tiết &rarr;</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 13. Sidebar Widgets
+    this.renderBlogSidebar(article);
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  renderArticleComments(articleId) {
+    const listEl = document.getElementById('blog-comments-list');
+    const countEl = document.getElementById('blog-comments-count');
+    if (!listEl) return;
+
+    let comments = JSON.parse(localStorage.getItem('caloha_comments_' + articleId) || 'null');
+    if (!comments) {
+      comments = [
+        {
+          name: 'Nguyễn Thị Bích Ngọc',
+          date: '14/09/2026 15:20',
+          rating: 5,
+          text: 'Bài viết phân tích rất kỹ và khoa học! Trước đây mình cứ nghĩ Cam Ngọt và Bergamot giống nhau, giờ mới biết Bergamot có thêm Linalyl Acetate giúp giảm stress và chống trầm cảm tốt hơn nhiều. Đã đặt mua 1 chai Bergamot của CALOHA xông phòng ngủ cực kỳ thư thái.',
+          reply: 'Dược sĩ CALOHA mến chào chị Ngọc! Rất vui vì bài viết hữu ích cho chị. Tinh dầu Bergamot vùng Calabria của CALOHA đạt chuẩn kiểm nghiệm hữu cơ châu Âu nên nốt hương vô cùng thanh sạch, chúc chị luôn có những giấc ngủ an lành ạ!'
+        },
+        {
+          name: 'Hoàng Minh Tuấn',
+          date: '14/09/2026 18:45',
+          rating: 5,
+          text: 'Phần lưu ý về quang độc tính (Phototoxicity) rất quan trọng mà nhiều bên bán hàng không hề tư vấn cho khách. Rất đánh giá cao sự chỉn chu và đạo đức y dược của CALOHA!',
+          reply: 'CALOHA chân thành cảm ơn anh Tuấn! An toàn trị liệu luôn là tôn chỉ số 1 của CALOHA trong từng giọt thảo mộc gửi đến khách hàng.'
+        }
+      ];
+      localStorage.setItem('caloha_comments_' + articleId, JSON.stringify(comments));
+    }
+
+    if (countEl) countEl.textContent = `(${comments.length})`;
+
+    listEl.innerHTML = comments.map(c => `
+      <div class="comment-item">
+        <div class="comment-item-top">
+          <div class="comment-author-info">
+            <div class="comment-avatar">${c.name.charAt(0).toUpperCase()}</div>
+            <div>
+              <div class="comment-author-name">
+                ${c.name}
+                <span class="comment-verified-badge"><i data-lucide="shield-check" style="width:11px; vertical-align:middle;"></i> Độc giả kiểm chứng</span>
+              </div>
+              <div class="comment-date">${c.date} • Đánh giá: ${'★'.repeat(c.rating || 5)}${'☆'.repeat(5 - (c.rating || 5))}</div>
+            </div>
+          </div>
+        </div>
+        <div class="comment-body">${c.text}</div>
+        ${c.reply ? `
+          <div class="comment-official-reply">
+            <h6><i data-lucide="check-circle" style="width:14px; color:var(--accent);"></i> Phản hồi từ Dược Sĩ Chuyên Môn CALOHA:</h6>
+            <p style="margin:0; color:var(--text-dark);">${c.reply}</p>
+          </div>
+        ` : ''}
+      </div>
+    `).join('');
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  handleCommentSubmit(event) {
+    event.preventDefault();
+    if (!this.currentArticleId) return;
+
+    const nameInput = document.getElementById('comment-author-input');
+    const phoneInput = document.getElementById('comment-phone-input');
+    const textInput = document.getElementById('comment-text-input');
+    const ratingInput = document.querySelector('input[name="comment-star-rating"]:checked');
+
+    if (!nameInput || !textInput) return;
+
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    const rating = ratingInput ? parseInt(ratingInput.value, 10) : 5;
+
+    if (!name || !text) {
+      this.showToast('Vui lòng điền đầy đủ họ tên và nội dung bình luận.');
+      return;
+    }
+
+    const comments = JSON.parse(localStorage.getItem('caloha_comments_' + this.currentArticleId) || '[]');
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+    comments.unshift({
+      name: name,
+      date: dateStr,
+      rating: rating,
+      text: text,
+      reply: null
+    });
+
+    localStorage.setItem('caloha_comments_' + this.currentArticleId, JSON.stringify(comments));
+    this.renderArticleComments(this.currentArticleId);
+    this.showToast('✨ Cảm ơn bạn! Bình luận đã được đăng thành công.');
+
+    textInput.value = '';
+    nameInput.value = '';
+    if (phoneInput) phoneInput.value = '';
+  }
+
+  toggleArticleLike() {
+    if (!this.currentArticleId) return;
+    const key = 'caloha_liked_' + this.currentArticleId;
+    const isLiked = localStorage.getItem(key) === 'true';
+    const likeBtn = document.getElementById('blog-like-btn');
+    const likeCountEl = document.getElementById('blog-like-count');
+
+    let count = parseInt(likeCountEl ? likeCountEl.textContent : '0', 10);
+
+    if (isLiked) {
+      localStorage.setItem(key, 'false');
+      count = Math.max(0, count - 1);
+      if (likeBtn) likeBtn.classList.remove('liked');
+      this.showToast('Đã bỏ yêu thích bài viết.');
+    } else {
+      localStorage.setItem(key, 'true');
+      count += 1;
+      if (likeBtn) likeBtn.classList.add('liked');
+      this.showToast('❤️ Cảm ơn bạn đã yêu thích bài viết!');
+    }
+
+    if (likeCountEl) likeCountEl.textContent = count;
+  }
+
+  rateArticle(stars) {
+    if (!this.currentArticleId) return;
+    localStorage.setItem('caloha_rated_' + this.currentArticleId, stars.toString());
+    this.highlightStars(stars);
+    this.showToast(`⭐ Cảm ơn bạn đã đánh giá bài viết ${stars} sao!`);
+  }
+
+  highlightStars(stars) {
+    const starBtns = document.querySelectorAll('.blog-star-btn');
+    starBtns.forEach(btn => {
+      const val = parseInt(btn.getAttribute('data-val') || '0', 10);
+      if (val <= stars) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+
+  copyArticleLink() {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      this.showToast('📋 Đã sao chép liên kết bài viết vào bộ nhớ tạm!');
+    } else {
+      this.showToast('📋 Đã sao chép liên kết bài viết!');
+    }
+  }
+
+  renderBlogSidebar(article) {
+    // 1. Featured Products
+    const prodListEl = document.getElementById('sidebar-featured-products');
+    if (prodListEl) {
+      const relIds = article.relatedProductIds || [1, 2, 3];
+      const relProds = this.products.filter(p => relIds.includes(p.id)).slice(0, 3);
+      if (relProds.length) {
+        prodListEl.innerHTML = relProds.map(p => `
+          <div class="sidebar-prod-item">
+            <img src="${p.image}" alt="${p.name}" class="sidebar-prod-img" onerror="this.src='assets/prod_orange.jpg'">
+            <div class="sidebar-prod-info">
+              <div class="sidebar-prod-name">${p.name}</div>
+              <div class="sidebar-prod-price">${p.priceFormatted || (p.price.toLocaleString('vi-VN') + 'đ')}</div>
+              <div style="display:flex; gap:8px; margin-top:4px;">
+                <button class="btn btn-primary btn-sm" style="padding:4px 10px; font-size:0.75rem;" onclick="app.addToCart(${p.id})">
+                  <i data-lucide="shopping-bag" style="width:12px;"></i> Thêm giỏ
+                </button>
+                <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:0.75rem;" onclick="app.openProductModal(${p.id})">
+                  Chi tiết
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // 2. Trending Posts
+    const trendListEl = document.getElementById('sidebar-trending-posts');
+    if (trendListEl) {
+      const trending = [...this.articles].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 4);
+      trendListEl.innerHTML = trending.map((art, idx) => `
+        <a href="single-blog.html?id=${art.id}" class="sidebar-trend-item">
+          <span class="trend-number">0${idx + 1}</span>
+          <div>
+            <div class="sidebar-trend-title">${art.title}</div>
+            <span style="font-size:0.75rem; color:var(--text-muted);"><i data-lucide="eye" style="width:11px; vertical-align:middle;"></i> ${(art.views || 1500).toLocaleString('vi-VN')} lượt xem</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // 3. Category Counts
+    const catListEl = document.getElementById('sidebar-categories-list');
+    if (catListEl) {
+      const catCounts = {};
+      this.articles.forEach(a => {
+        catCounts[a.category] = (catCounts[a.category] || 0) + 1;
+      });
+      catListEl.innerHTML = Object.keys(catCounts).map(cat => `
+        <li style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-light);">
+          <a href="articles.html?articleCat=${encodeURIComponent(cat)}" style="color:var(--text-dark); text-decoration:none; font-size:0.88rem; font-weight:500;">🌿 ${cat}</a>
+          <span style="background:var(--mint-bg); color:var(--primary); font-size:0.75rem; font-weight:700; padding:2px 8px; border-radius:12px;">${catCounts[cat]}</span>
+        </li>
+      `).join('');
+    }
   }
 
   /* ==================== LIVE SEARCH ==================== */

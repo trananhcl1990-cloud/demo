@@ -29,6 +29,8 @@ const server = http.createServer((req, res) => {
     reqPath = '/catalog.html';
   } else if (reqPath === '/articles' || reqPath === '/articles/' || reqPath === '/bai-viet') {
     reqPath = '/articles.html';
+  } else if (reqPath === '/single-blog' || reqPath === '/single-blog/' || reqPath === '/blog' || reqPath === '/blog/' || reqPath === '/article' || reqPath === '/article/' || reqPath === '/bai-viet-chi-tiet' || reqPath === '/post' || reqPath === '/post/') {
+    reqPath = '/single-blog.html';
   } else if (reqPath === '/contact' || reqPath === '/contact/' || reqPath === '/lien-he') {
     reqPath = '/contact.html';
   } else if (reqPath === '/cart' || reqPath === '/cart/' || reqPath === '/gio-hang' || reqPath === '/gio-hang/') {

@@ -1799,19 +1799,101 @@ const ARTICLES_DATA = [
     category: 'So Sánh Sản Phẩm',
     date: '14/09/2026',
     readTime: '5 phút đọc',
+    views: 1840,
+    likes: 156,
     image: 'assets/cat_citrus.jpg',
-    summary: 'Cùng thuộc nhóm hương Cam Chanh tươi sáng, nhưng Cam Ngọt và Bergamot lại có nốt hương và liệu pháp trị liệu tinh thần khác nhau rõ rệt. Hãy xem bài so sánh chi tiết.',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Cam Ngọt', 'Bergamot', 'Aromatherapy', 'So Sánh', 'Giảm Căng Thẳng'],
+    relatedProductIds: [8, 9, 2, 3],
+    summary: 'Cùng thuộc nhóm hương Cam Chanh tươi sáng, nhưng Cam Ngọt và Bergamot lại có nốt hương và liệu pháp trị liệu tinh thần khác nhau rõ rệt. Hãy xem bài so sánh chi tiết từ chuyên gia.',
+    excerpt: 'Cùng thuộc nhóm hương Cam Chanh tươi sáng, nhưng Cam Ngọt và Bergamot lại có nốt hương và liệu pháp trị liệu tinh thần khác nhau rõ rệt. Hãy xem bài so sánh chi tiết từ chuyên gia.',
+    toc: [
+      { id: 'xuat-xu', title: '1. Xuất xứ & Đặc tính nguyên liệu ép lạnh' },
+      { id: 'tri-lieu', title: '2. Tác dụng trị liệu tinh thần (Aromatherapy)' },
+      { id: 'ung-dung', title: '3. Ứng dụng không gian sống & Phù hợp với ai?' },
+      { id: 'cong-thuc', title: '4. Công thức blend phối hương đề xuất' },
+      { id: 'luu-y', title: '5. Lưu ý an toàn quang học (Phototoxicity)' }
+    ],
     content: `
-      <h3>1. Xuất xứ và đặc tính nguyên liệu</h3>
-      <p><strong>Cam Ngọt (Sweet Orange - Citrus sinensis):</strong> Được ép lạnh từ vỏ quả cam vàng chín mọng dưới ánh nắng Địa Trung Hải hoặc Việt Nam. Hương thơm mọng nước, ấm áp, thân thiện và ngọt ngào.</p>
-      <p><strong>Cam Bergamot (Citrus bergamia):</strong> Là loại quả lai đặc hữu vùng Calabria nước Ý. Vỏ Bergamot chứa hàm lượng tinh dầu quý giá với nốt hương cam chanh thanh tao kết hợp hương hoa cỏ và vị đắng nhẹ đặc trưng (thành phần tạo nên mùi trà Bá Tước - Earl Grey trứ danh).</p>
-      <h3>2. Tác dụng trị liệu tinh thần (Aromatherapy)</h3>
+      <p class="blog-sapo">
+        Trong thế giới tinh dầu thiên nhiên, nhóm hương Cam Chanh (Citrus) luôn là sự lựa chọn mở đầu hoàn hảo nhờ cảm giác tươi mới, phấn chấn và giải tỏa mệt mỏi tức thì. Tuy nhiên, hai "ngôi sao" sáng nhất là <strong>Cam Ngọt (Sweet Orange)</strong> và <strong>Vỏ Cam Bergamot</strong> thường khiến người dùng băn khoăn khi lựa chọn. Bài viết phân tích toàn diện về thành phần hóa sinh, nốt hương trị liệu và cách ứng dụng thực tế.
+      </p>
+
+      <h2 id="xuat-xu">1. Xuất xứ & Đặc tính nguyên liệu ép lạnh</h2>
+      <p>
+        <strong>Cam Ngọt (Sweet Orange - Citrus sinensis):</strong> Được chiết xuất bằng phương pháp ép lạnh cơ học từ vỏ những trái cam vàng chín mọng dưới ánh nắng Địa Trung Hải hoặc vùng chuyên canh trù phú tại Việt Nam. Tinh dầu chứa tới hơn 90% hợp chất <em>d-Limonene</em> tự nhiên, tỏa hương thơm ngát, ngọt ấm, mọng nước và vô cùng gần gũi.
+      </p>
+      <p>
+        <strong>Cam Bergamot (Citrus bergamia):</strong> Là loại quả lai quý hiếm đặc hữu vùng Calabria ven biển miền Nam nước Ý. Vỏ Bergamot có màu xanh ngọc lam chuyển dần sang vàng chanh, chứa hàm lượng tinh chất thơm phức hợp độc nhất vô nhị. Mùi hương Bergamot không chỉ có vị chua thanh của cam chanh mà còn phảng phất hương hoa thảo mộc quý phái và vị cay đắng nhẹ – chính là linh hồn tạo nên tách trà Bá Tước (Earl Grey) trứ danh của quý tộc Anh Quốc.
+      </p>
+
+      <div class="blog-quote">
+        “Mùi hương Cam Ngọt tựa như một ngày nắng ấm tràn đầy niềm vui thơ trẻ; trong khi Cam Bergamot lại là sự tĩnh lặng thanh tao, một góc trà chiều sâu lắng xoa dịu những vết thương tâm hồn.”
+      </div>
+
+      <h2 id="tri-lieu">2. Tác dụng trị liệu tinh thần (Aromatherapy)</h2>
+      <p>
+        Mỗi loại tinh dầu tác động lên hệ thống viền não (Limbic system) theo những cơ chế khoa học rất khác biệt:
+      </p>
       <ul>
-        <li><strong>Cam Ngọt:</strong> Kích thích sự vui vẻ, xua tan áp lực công việc, tạo bầu không khí ấm cúng cho cả gia đình và đặc biệt an toàn, dễ chịu với trẻ nhỏ.</li>
-        <li><strong>Bergamot:</strong> Được mệnh danh là "liệu pháp chống lo âu tự nhiên", giúp xoa dịu các cơn khủng hoảng cảm xúc, cân bằng tâm trạng thất thường và hỗ trợ cải thiện chứng trầm cảm nhẹ.</li>
+        <li><strong>Cam Ngọt - Kích hoạt Hormone Hạnh Phúc:</strong> Nhờ hàm lượng Limonene vượt trội, Cam Ngọt kích thích cơ thể sản sinh Serotonin và Dopamine. Nó giúp xua tan cảm giác bức bối, tạo năng lượng tích cực cho ngày mới và đặc biệt dịu lành với tâm lý trẻ nhỏ.</li>
+        <li><strong>Cam Bergamot - Liệu pháp Xua Tan Lo Âu (Anti-Anxiety):</strong> Bergamot là một trong số rất hiếm tinh dầu họ Cam Chanh chứa đồng thời cả <em>Linalyl Acetate</em> và <em>Linalool</em> (hoạt chất thường thấy trong hoa Oải Hương). Sự kết hợp này mang lại khả năng hạ nhịp tim căng thẳng, điều hòa huyết áp và hỗ trợ cải thiện chứng trầm cảm nhẹ, rối loạn lo âu.</li>
       </ul>
-      <h3>3. Ứng dụng thực tế</h3>
-      <p>Nên chọn <strong>Cam Ngọt</strong> khi bạn muốn khuếch tán phòng khách, bếp hoặc phòng sinh hoạt chung để khử mùi thức ăn và tạo cảm giác tươi vui. Hãy chọn <strong>Bergamot</strong> cho góc làm việc cá nhân, phòng đọc sách hoặc không gian spa cần sự tĩnh lặng, sang trọng.</p>
+
+      <div class="blog-tip-card">
+        <div class="blog-tip-icon">🌿</div>
+        <div class="blog-tip-content">
+          <h4>Mẹo Chuyên Gia CALOHA:</h4>
+          <p>Nếu bạn cần một mùi hương cho cả gia đình sinh hoạt chung hoặc khi nhà có trẻ nhỏ, hãy ưu tiên <strong>Cam Ngọt</strong>. Nếu bạn là người làm việc văn phòng thường xuyên chịu áp lực KPI, mất ngủ vì suy nghĩ nhiều, hãy đầu tư ngay một lọ <strong>Cam Bergamot</strong> hữu cơ.</p>
+        </div>
+      </div>
+
+      <h2 id="ung-dung">3. Ứng dụng không gian sống & Phù hợp với ai?</h2>
+      <p>
+        Tùy thuộc vào không gian và mục đích sử dụng, bạn có thể lựa chọn linh hoạt:
+      </p>
+      <ul>
+        <li><strong>Phòng khách, nhà bếp & phòng ăn:</strong> Cam Ngọt khử mùi dầu mỡ thức ăn cực kỳ hiệu quả, tạo không khí ấm cúng và kích thích khẩu vị trong bữa cơm gia đình.</li>
+        <li><strong>Phòng làm việc, phòng đọc sách & Studio:</strong> Bergamot giúp tăng cường sự tập trung sáng tạo, thanh lọc không khí và mang lại thần thái sang trọng, tinh tế.</li>
+        <li><strong>Phòng ngủ:</strong> Kết hợp 2 giọt Bergamot + 2 giọt Oải Hương khuếch tán 30 phút trước khi ngủ sẽ đưa bạn vào giấc ngủ sâu không mộng mị.</li>
+      </ul>
+
+      <div class="blog-recipe-card">
+        <h4>✨ Công Thức Khuếch Tán Mùi Hương Đề Xuất</h4>
+        <div class="blog-recipe-grid">
+          <div class="recipe-box">
+            <h5>☀️ Năng Lượng Tươi Vui Ban Ngày:</h5>
+            <ul>
+              <li>3 giọt Cam Ngọt CALOHA</li>
+              <li>2 giọt Bạc Hà Nhật Organic</li>
+              <li>1 giọt Hương Thảo Cineol</li>
+              <li><em>Công dụng: Tỉnh táo, phấn chấn, làm việc năng suất.</em></li>
+            </ul>
+          </div>
+          <div class="recipe-box">
+            <h5>🌙 Tĩnh Lặng & Xả Stress Ban Đêm:</h5>
+            <ul>
+              <li>3 giọt Cam Bergamot CALOHA</li>
+              <li>2 giọt Hoa Oải Hương Pháp</li>
+              <li>1 giọt Gỗ Hoàng Đàn Atlas</li>
+              <li><em>Công dụng: Thư giãn hệ thần kinh, giải tỏa muộn phiền.</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="luu-y">5. Lưu ý an toàn quang học (Phototoxicity)</h2>
+      <div class="blog-safety-card">
+        <div class="blog-tip-icon">⚠️</div>
+        <div>
+          <h4>Cảnh Báo Quan Trọng Khi Thoa Lên Da:</h4>
+          <p>
+            Các loại tinh dầu ép lạnh từ vỏ quả cam chanh (đặc biệt là Cam Bergamot nguyên bản) có chứa hợp chất <em>Furanocoumarins (Bergapten)</em> có tính nhạy cảm với ánh sáng (Phototoxicity). Nếu thoa lên da sau khi pha với dầu nền, bạn cần tránh để vùng da đó tiếp xúc trực tiếp với ánh nắng mặt trời trong vòng ít nhất 12 - 18 giờ để ngăn ngừa hiện tượng tăng sắc tố da hoặc cháy nắng.
+          </p>
+        </div>
+      </div>
     `
   },
   {
@@ -1820,17 +1902,53 @@ const ARTICLES_DATA = [
     category: 'So Sánh Sản Phẩm',
     date: '13/09/2026',
     readTime: '6 phút đọc',
+    views: 2150,
+    likes: 198,
     image: 'assets/cat_herbal.jpg',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Tràm Gió', 'Tràm Trà', 'Kháng Khuẩn', 'Trị Mụn', 'Giữ Ấm'],
+    relatedProductIds: [42, 43, 6, 7],
     summary: 'Rất nhiều người nhầm lẫn giữa Tràm Gió và Tràm Trà. Bài viết phân tích cấu trúc hoạt chất Cineol vs Terpinen-4-ol để giúp bạn sử dụng đúng mục đích giữ ấm hoặc trị mụn.',
+    excerpt: 'Rất nhiều người nhầm lẫn giữa Tràm Gió và Tràm Trà. Bài viết phân tích cấu trúc hoạt chất Cineol vs Terpinen-4-ol để giúp bạn sử dụng đúng mục đích giữ ấm hoặc trị mụn.',
+    toc: [
+      { id: 'khac-biet-hoat-chat', title: '1. Sự khác biệt về thành phần hoạt chất cốt lõi' },
+      { id: 'ung-dung-chuan', title: '2. Bảng so sánh ứng dụng chuẩn y học' },
+      { id: 'huong-dan-cho-be', title: '3. Cách dùng an toàn cho trẻ sơ sinh và mẹ bỉm' },
+      { id: 'tri-mun-cham-soc-da', title: '4. Hướng dẫn trị mụn chuẩn da liễu với Tràm Trà' }
+    ],
     content: `
-      <h3>1. Sự khác biệt về thành phần hoạt chất cốt lõi</h3>
-      <p><strong>Tràm Gió (Cajeput - Melaleuca cajuputi):</strong> Giàu hoạt chất <em>1,8-Cineole (Eucalyptol)</em> chiếm từ 45% - 65%. Hợp chất này có tính ấm, làm loãng đờm nhớt, làm thông thoáng đường thở và giữ ấm cơ thể cực tốt.</p>
-      <p><strong>Tràm Trà (Tea Tree - Melaleuca alternifolia):</strong> Giàu hoạt chất <em>Terpinen-4-ol</em> (trên 35-40%). Đây là chất kháng khuẩn, kháng nấm và ức chế vi khuẩn P.acnes gây mụn trứng cá mạnh mẽ nhất trong tự nhiên.</p>
-      <h3>2. Bảng so sánh ứng dụng chuẩn khoa học</h3>
+      <p class="blog-sapo">
+        Dù cùng mang chữ "Tràm" trong tên tiếng Việt và thuộc họ Đào Kim Nương (Myrtaceae), Tràm Gió (Cajeput) và Tràm Trà (Tea Tree) lại là hai loài thực vật hoàn toàn khác biệt với cấu trúc phân tử và công dụng trị liệu đối lập nhau. Việc hiểu đúng bản chất giúp bạn tránh lãng phí và bảo vệ sức khỏe cả gia đình.
+      </p>
+
+      <h2 id="khac-biet-hoat-chat">1. Sự khác biệt về thành phần hoạt chất cốt lõi</h2>
+      <p>
+        <strong>Tràm Gió (Cajeput - Melaleuca cajuputi):</strong> Giàu hoạt chất <em>1,8-Cineole (Eucalyptol)</em> chiếm từ 45% - 65% và α-Terpineol. Hợp chất này có tính ấm, làm loãng đờm nhớt, làm thông thoáng đường hô hấp, giữ ấm kinh lạc và hỗ trợ cắt cơn ho gió, nghẹt mũi.
+      </p>
+      <p>
+        <strong>Tràm Trà (Tea Tree - Melaleuca alternifolia):</strong> Có nguồn gốc từ miền Đông nước Úc, chứa hàm lượng <em>Terpinen-4-ol</em> (trên 35-42%) cùng γ-terpinene. Đây là "kháng sinh tự nhiên" mạnh mẽ nhất trong thực vật học, có khả năng ức chế vi khuẩn <em>Cutibacterium acnes</em> gây mụn viêm và diệt nấm phổ rộng.
+      </p>
+
+      <div class="blog-quote">
+        “Quy tắc vàng nằm lòng: Cần giữ ấm đường thở, phòng cảm ho cho bé hãy chọn Tràm Gió; Cần kháng viêm, chấm mụn bọc, trị nấm ngứa hãy chọn Tràm Trà.”
+      </div>
+
+      <h2 id="ung-dung-chuan">2. Bảng so sánh ứng dụng chuẩn y học</h2>
       <ul>
-        <li><strong>Giữ ấm, phòng cảm lạnh, trị ho nghẹt mũi cho bé và người lớn:</strong> Sử dụng <strong>Tràm Gió</strong> (thoa lòng bàn chân, nhỏ vài giọt vào nước tắm, xoa lưng ngực).</li>
-        <li><strong>Chăm sóc da mụn, kháng viêm ổ mụn, khử trùng vết trầy xước, nấm móng:</strong> Sử dụng <strong>Tràm Trà</strong> (chấm điểm mụn hoặc pha vào sữa rửa mặt).</li>
+        <li><strong>Giữ ấm cơ thể & Hỗ trợ hô hấp:</strong> Thoa 1-2 giọt Tràm Gió vào lòng bàn chân (huyệt Dũng Tuyền), cổ ngực trước khi đi ngủ hoặc xoa bóp lưng khi trời trở lạnh.</li>
+        <li><strong>Khử trùng & Kháng khuẩn phòng ốc:</strong> Xông phòng bằng Tràm Gió giúp thanh lọc vi khuẩn trôi nổi trong không khí vào mùa dịch cúm.</li>
+        <li><strong>Chăm sóc da dầu mụn:</strong> Dùng tăm bông chấm 1 giọt Tràm Trà trực tiếp lên nốt mụn sưng viêm 2 lần/ngày để gom cồi mụn nhanh chóng.</li>
       </ul>
+
+      <div class="blog-tip-card">
+        <div class="blog-tip-icon">🌿</div>
+        <div class="blog-tip-content">
+          <h4>Mẹo Cho Mẹ Bỉm Sữa:</h4>
+          <p>Khi tắm cho bé vào mùa đông, mẹ chỉ cần nhỏ 3-4 giọt Tinh dầu Tràm Gió CALOHA vào thau nước ấm khuấy đều. Hơi ấm của tràm sẽ bảo vệ bé không bị nhiễm lạnh trong suốt quá trình tắm.</p>
+        </div>
+      </div>
     `
   },
   {
@@ -1839,32 +1957,81 @@ const ARTICLES_DATA = [
     category: 'So Sánh Sản Phẩm',
     date: '12/09/2026',
     readTime: '4 phút đọc',
+    views: 1690,
+    likes: 142,
     image: 'assets/prod_lavender.jpg',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Lavender', 'Oải Hương', 'Pháp', 'Bulgaria', 'Ngủ Ngon'],
+    relatedProductIds: [46, 47, 48],
     summary: 'Hai cái nôi sản sinh ra những giọt tinh dầu Lavender trứ danh thế giới. Đâu là sự khác biệt giữa phong vị ngọt ngào thảo mộc của Pháp và hương hoa đượm sâu của Bulgaria?',
+    excerpt: 'Hai cái nôi sản sinh ra những giọt tinh dầu Lavender trứ danh thế giới. Đâu là sự khác biệt giữa phong vị ngọt ngào thảo mộc của Pháp và hương hoa đượm sâu của Bulgaria?',
+    toc: [
+      { id: 'tho-nhuong', title: '1. Khí hậu & Thổ nhưỡng vùng Provence vs Thung lũng Bulgaria' },
+      { id: 'trai-nghiem', title: '2. Trải nghiệm khứu giác & Tầng hương thơm' },
+      { id: 'lua-chon', title: '3. Bạn nên chọn loại nào cho phòng ngủ của mình?' }
+    ],
     content: `
-      <h3>1. Điều kiện thổ nhưỡng và khí hậu</h3>
-      <p>Oải hương Pháp trồng trên các cao nguyên vùng Provence với độ cao trên 800m, hấp thụ khí hậu khô ráo Địa Trung Hải tạo nên hàm lượng Linalyl Acetate thanh thoát.</p>
-      <p>Oải hương Bulgaria trồng tại thung lũng Hoa Hồng với lượng mưa dồi dào và đất đai màu mỡ, cho ra nốt hương đậm đà, tròn trịa và bền mùi hơn.</p>
-      <h3>2. Trải nghiệm khứu giác</h3>
-      <p><strong>Lavender Pháp:</strong> Mang nốt hương đầu tươi mát, phảng phất hương thảo mộc khô tự nhiên, thích hợp cho ban ngày và xông phòng làm dịu căng thẳng tức thì.</p>
-      <p><strong>Lavender Bulgaria:</strong> Hương hoa đậm sâu, ngọt ngào, hậu vị ấm và lưu hương lâu trên gối ngủ, là lựa chọn số 1 cho người bị mất ngủ kinh niên.</p>
+      <p class="blog-sapo">
+        Hoa Oải Hương (Lavender) được mệnh danh là "Mẹ của các loại tinh dầu" nhờ khả năng an thần, chữa lành và thư thái diệu kỳ. Khi nhắc đến Lavender cao cấp nhất, thế giới chỉ tôn vinh hai vùng đất: Provence (Pháp) và Thung lũng Hoa Hồng (Bulgaria). Cùng khám phá sự khác biệt tinh tế giữa hai kiệt tác mùi hương này.
+      </p>
+
+      <h2 id="tho-nhuong">1. Khí hậu & Thổ nhưỡng vùng Provence vs Thung lũng Bulgaria</h2>
+      <p>
+        <strong>Lavender Pháp (Vùng Provence):</strong> Sinh trưởng trên các cao nguyên đá vôi khô ráo ở độ cao trên 800 - 1.200m so với mực nước biển. Nắng gắt và gió lạnh miền núi tôi luyện nên hàm lượng este <em>Linalyl Acetate</em> vô cùng thanh khiết và dịu nhẹ.
+      </p>
+      <p>
+        <strong>Lavender Bulgaria:</strong> Được nuôi dưỡng bởi đất đen màu mỡ và lượng mưa dồi dào của thung lũng Balkan. Giống cây nơi đây cho ra sản lượng hoa dồi dào với hàm lượng phân tử hương thơm đượm nồng và kéo dài dai dẳng.
+      </p>
+
+      <h2 id="trai-nghiem">2. Trải nghiệm khứu giác & Tầng hương thơm</h2>
+      <ul>
+        <li><strong>Lavender Pháp:</strong> Hương đầu mở ra với vị thảo mộc the mát tự nhiên, khô ráo, thanh lịch và phảng phất chút hương lá thông. Rất thích hợp cho những ai thích mùi hương nhẹ nhàng, tự nhiên không quá ngào ngạt.</li>
+        <li><strong>Lavender Bulgaria:</strong> Hương hoa nở rộ đượm sâu, nồng nàn, ngọt ngào và ấm áp. Độ lưu hương trên gối ngủ hay máy xông có thể kéo dài suốt đêm.</li>
+      </ul>
     `
   },
   {
     id: 'kien-thuc-phan-biet',
     title: 'Cách Phân Biệt Tinh Dầu Thiên Nhiên Nguyên Chất Và Hương Liệu Hóa Học Tổng Hợp',
-    category: 'Kiến Thức Tinh Dầu',
+    category: 'Kiến Thức Về Tinh Dầu',
     date: '11/09/2026',
     readTime: '5 phút đọc',
+    views: 3420,
+    likes: 310,
     image: 'assets/story_distillation.jpg',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Phân Biệt', 'Hương Liệu', 'Chất Lượng', 'GC-MS', 'Hữu Cơ'],
+    relatedProductIds: [1, 2, 8, 46],
     summary: 'Làm thế nào để nhận biết lọ tinh dầu bạn mua có thực sự chiết xuất 100% từ thiên nhiên hay chỉ là mùi thơm tổng hợp công nghiệp? Xem ngay các mẹo kiểm tra trên giấy trắng và nhiệt độ bay hơi.',
+    excerpt: 'Làm thế nào để nhận biết lọ tinh dầu bạn mua có thực sự chiết xuất 100% từ thiên nhiên hay chỉ là mùi thơm tổng hợp công nghiệp? Xem ngay các mẹo kiểm tra trên giấy trắng và nhiệt độ bay hơi.',
+    toc: [
+      { id: 'test-giay', title: '1. Thử nghiệm vết loang trên giấy trắng (Paper Blot Test)' },
+      { id: 'do-hoa-tan', title: '2. Thử nghiệm độ hòa tan trong nước tinh khiết' },
+      { id: 'tang-huong', title: '3. Nhận diện qua sự chuyển tầng nốt hương (Notes)' },
+      { id: 'giay-chung-nhan', title: '4. Tiêu chuẩn chứng nhận kiểm nghiệm GC-MS & COA' }
+    ],
     content: `
-      <h3>1. Phân biệt qua hiện tượng bay hơi trên giấy trắng</h3>
-      <p>Nhỏ 1 giọt tinh dầu lên tờ giấy trắng tinh khiết. Tinh dầu nguyên chất có cấu trúc phân tử nhẹ, sau 1-2 giờ sẽ bay hơi hoàn toàn mà không để lại vệt dầu loang ố nhờn rít. Hương liệu tổng hợp thường pha dung môi hóa dầu sẽ để lại quầng ố vàng rõ rệt.</p>
-      <h3>2. Kiểm tra độ hòa tan trong nước</h3>
-      <p>Tinh dầu tự nhiên nhẹ hơn nước và không tan trong nước, sẽ nổi thành các giọt tròn riêng biệt trên bề mặt. Nếu giọt tinh dầu hòa tan làm đục ngầu cốc nước ngay lập tức, sản phẩm có thể đã bị pha hóa chất nhũ hóa nhân tạo.</p>
-      <h3>3. Mùi hương nhiều tầng nốt (Aromatherapy Notes)</h3>
-      <p>Hương liệu tổng hợp chỉ có một mùi đơn điệu, gắt mũi và nồng nặc không đổi từ đầu đến cuối. Ngược lại, tinh dầu thiên nhiên nguyên chất của CALOHA có độ chuyển biến tinh tế gồm Hương đầu, Hương giữa và Hương lắng, mang lại cảm giác dễ chịu, sâu lắng và không gây đau đầu khi ngửi lâu.</p>
+      <p class="blog-sapo">
+        Trên thị trường hiện nay có hàng ngàn loại sản phẩm mang mác "tinh dầu", nhưng thực tế có đến 70% là hương liệu công nghiệp (Fragrance Oil) được pha loãng với dung môi hóa dầu. Hít phải hương liệu hóa học trong thời gian dài có thể gây đau đầu, buồn nôn và tổn thương niêm mạc phổi. Dưới đây là 4 phương pháp kiểm tra khoa học và dễ thực hiện nhất tại nhà.
+      </p>
+
+      <h2 id="test-giay">1. Thử nghiệm vết loang trên giấy trắng (Paper Blot Test)</h2>
+      <p>
+        Nhỏ 1 giọt tinh dầu lên mép tờ giấy in A4 trắng tinh khiết và để ở nhiệt độ phòng.
+      </p>
+      <ul>
+        <li><strong>Tinh dầu nguyên chất:</strong> Vì phân tử tinh dầu tự nhiên rất nhẹ và dễ bay hơi, sau khoảng 1 - 2 giờ giọt tinh dầu sẽ thăng hoa hoàn toàn, mặt giấy khô ráo và không để lại bất kỳ vệt nhờn ố vàng nào (ngoại trừ một số tinh dầu có sắc tố tự nhiên đậm như Trầm Hương hay Hoắc Hương).</li>
+        <li><strong>Hương liệu pha dầu khoáng:</strong> Dù để qua đêm hay nhiều ngày, trên giấy vẫn tồn tại một quầng loang dầu ướt át nhờn rít không bao giờ biến mất.</li>
+      </ul>
+
+      <h2 id="do-hoa-tan">2. Thử nghiệm độ hòa tan trong nước tinh khiết</h2>
+      <p>
+        Nhỏ 1-2 giọt vào ly nước trong. Tinh dầu thiên nhiên nhẹ hơn nước sẽ nổi tròn vo trên mặt nước hoặc trôi bồng bềnh mà không hòa tan. Nếu giọt dầu lập tức hòa tan làm đục ngầu cốc nước, chắc chắn sản phẩm đã bị pha thêm chất nhũ hóa nhân tạo (Surfactants).
+      </p>
     `
   },
   {
@@ -1873,19 +2040,42 @@ const ARTICLES_DATA = [
     category: 'Hướng Dẫn Sử Dụng',
     date: '10/09/2026',
     readTime: '6 phút đọc',
+    views: 2890,
+    likes: 245,
     image: 'assets/cat_carrier.jpg',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Tỷ Lệ Vàng', 'Dầu Nền', 'Massage', 'An Toàn', 'Trẻ Nhỏ'],
+    relatedProductIds: [1, 2, 46, 42],
     summary: 'Tinh dầu nguyên chất có nồng độ dược tính cực cao, gấp 50-70 lần thảo dược tươi. Hãy cùng CALOHA học bảng tỷ lệ pha an toàn khi massage lên da mặt, toàn thân và trẻ nhỏ.',
+    excerpt: 'Tinh dầu nguyên chất có nồng độ dược tính cực cao, gấp 50-70 lần thảo dược tươi. Hãy cùng CALOHA học bảng tỷ lệ pha an toàn khi massage lên da mặt, toàn thân và trẻ nhỏ.',
+    toc: [
+      { id: 'tai-sao-can-dau-nen', title: '1. Tại sao bắt buộc phải dùng dầu nền khi thoa lên da?' },
+      { id: 'bang-ty-le-vang', title: '2. Bảng tỷ lệ vàng chuẩn chuyên gia Aromatherapy Quốc Tế' },
+      { id: 'patch-test', title: '3. Quy trình thử kích ứng da (Patch Test) 24h' }
+    ],
     content: `
-      <h3>1. Tại sao bắt buộc phải dùng dầu nền khi thoa lên da?</h3>
-      <p>Dầu nguyên chất bay hơi rất nhanh và có hoạt tính sinh học mạnh. Dầu nền (Jojoba, Dầu Dừa, Dầu Tầm Xuân) đóng vai trò khóa ẩm, dẫn truyền các hoạt chất thấm sâu vào biểu bì và bảo vệ hàng rào lipid của da không bị kích ứng.</p>
-      <h3>2. Bảng tỷ lệ vàng chuẩn chuyên gia Aromatherapy Quốc tế</h3>
+      <p class="blog-sapo">
+        Một giọt tinh dầu nguyên chất tương đương với dược tính của 50 đến 70 tách trà thảo mộc. Do độ đậm đặc phân tử sinh học cực lớn, việc thoa trực tiếp tinh dầu chưa pha loãng lên da có thể gây bỏng rát hoặc viêm da tiếp xúc. Nắm vững bảng tỷ lệ vàng pha với dầu nền (Carrier Oils) là bước khởi đầu bắt buộc của bất kỳ ai yêu thích Aromatherapy.
+      </p>
+
+      <h2 id="tai-sao-can-dau-nen">1. Tại sao bắt buộc phải dùng dầu nền khi thoa lên da?</h2>
+      <p>
+        Tinh dầu nguyên chất bốc hơi rất nhanh trong không khí. Dầu dẫn xuất (dầu Jojoba hữu cơ, dầu Hạnh Nhân ngọt, dầu Hạt Nho) giàu axit béo thiết yếu đóng vai trò:
+      </p>
       <ul>
-        <li><strong>Nồng độ 0.5% - 1% (Cho da nhạy cảm & trẻ nhỏ trên 2 tuổi):</strong> Pha 3-6 giọt tinh dầu vào 30ml dầu nền.</li>
-        <li><strong>Nồng độ 2% (Mức chuẩn cho massage thư giãn toàn thân người lớn):</strong> Pha 12 giọt tinh dầu vào 30ml dầu nền.</li>
-        <li><strong>Nồng độ 3% - 5% (Chăm sóc điểm cục bộ, đau mỏi cơ bắp, trị mụn điểm):</strong> Pha 18-30 giọt tinh dầu vào 30ml dầu nền.</li>
+        <li>Ngăn chặn sự bay hơi sớm, giữ hoạt chất lưu lại trên da lâu dài.</li>
+        <li>Vận chuyển các phân tử tinh dầu thấm sâu qua lớp biểu bì vào tuần hoàn máu.</li>
+        <li>Nuôi dưỡng màng lipid bảo vệ da mềm mại, ngừa kích ứng.</li>
       </ul>
-      <h3>3. Kiểm tra kích ứng (Patch Test)</h3>
-      <p>Trước khi thoa trên diện rộng, luôn pha 1 giọt tinh dầu với 1 thìa cafe dầu nền, thoa vào mặt trong cẳng tay và theo dõi phản ứng trong 24 giờ.</p>
+
+      <h2 id="bang-ty-le-vang">2. Bảng tỷ lệ vàng chuẩn chuyên gia Aromatherapy Quốc Tế</h2>
+      <ul>
+        <li><strong>Nồng độ 0.5% - 1% (Cho da mặt nhạy cảm & trẻ em trên 2 tuổi):</strong> 3 - 6 giọt tinh dầu vào 30ml dầu nền.</li>
+        <li><strong>Nồng độ 2% (Mức chuẩn cho massage toàn thân người lớn):</strong> 12 giọt tinh dầu vào 30ml dầu nền.</li>
+        <li><strong>Nồng độ 3% - 5% (Chăm sóc điểm cục bộ, đau mỏi cơ bắp, chấm mụn):</strong> 18 - 30 giọt tinh dầu vào 30ml dầu nền.</li>
+      </ul>
     `
   },
   {
@@ -1894,16 +2084,35 @@ const ARTICLES_DATA = [
     category: 'Bài Viết Cho Từng Sản Phẩm',
     date: '09/09/2026',
     readTime: '5 phút đọc',
+    views: 2470,
+    likes: 215,
     image: 'assets/prod_lavender.jpg',
+    author: 'ThS. DS. Đặng Thu Hà',
+    authorRole: 'Chuyên gia Trị liệu Mùi hương & Ban Cố Vấn Nghiên Cứu CALOHA',
+    authorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    tags: ['Oải Hương', 'Pháp', 'Organic', 'Giấc Ngủ', 'Thư Giãn'],
+    relatedProductIds: [46, 47, 48],
     summary: 'Phân tích sâu về nguồn gốc, cấu tạo hóa học và 10 bài thuốc dân gian ứng dụng tinh dầu Oải Hương Pháp trong đời sống hiện đại.',
+    excerpt: 'Phân tích sâu về nguồn gốc, cấu tạo hóa học và 10 bài thuốc dân gian ứng dụng tinh dầu Oải Hương Pháp trong đời sống hiện đại.',
+    toc: [
+      { id: 'dac-trung', title: '1. Đặc trưng thực vật học Lavandula Angustifolia' },
+      { id: 'cong-thuc-tri-lieu', title: '2. Các công thức trị liệu giấc ngủ & giảm căng thẳng' },
+      { id: 'cham-soc-da', title: '3. Tác dụng làm dịu vết côn trùng cắn và bỏng nhẹ' }
+    ],
     content: `
-      <h3>1. Đặc trưng thực vật học</h3>
-      <p>Chiết xuất từ hoa <em>Lavandula angustifolia</em> thu hái tại vùng Provence (Pháp). Đây là loài oải hương có giá trị y học và mùi thơm thanh quý nhất trong các giống lavender.</p>
-      <h3>2. Các công thức trị liệu phổ biến</h3>
+      <p class="blog-sapo">
+        Được xưng tụng là "Nữ hoàng của thảo mộc", tinh dầu Hoa Oải Hương Pháp (Lavandula Angustifolia) từ lâu đã trở thành biểu tượng bất tử của sự an yên, tĩnh lặng và thanh tẩy tâm trí. Cùng CALOHA tìm hiểu tường tận loài thảo mộc cao quý của vùng đất Provence.
+      </p>
+
+      <h2 id="dac-trung">1. Đặc trưng thực vật học Lavandula Angustifolia</h2>
+      <p>
+        Không giống như các giống lai Lavandin rẻ tiền thường có mùi gắt do hàm lượng Camphor cao, giống Oải hương thuần chủng <em>Lavandula Angustifolia</em> chứa nồng độ Linalyl Acetate và Linalool vượt trội, mang lại nốt hương hoa cỏ tinh tế, tròn trịa và êm dịu nhất.
+      </p>
+
+      <h2 id="cong-thuc-tri-lieu">2. Các công thức trị liệu giấc ngủ & giảm căng thẳng</h2>
       <ul>
-        <li><strong>Giấc ngủ ngon:</strong> Khuếch tán 3 giọt Lavender + 2 giọt Cam Ngọt trước khi ngủ 30 phút.</li>
-        <li><strong>Làm dịu vết bỏng nhẹ / côn trùng cắn:</strong> Chấm 1 giọt trực tiếp lên nốt muỗi đốt để giảm sưng ngứa tức thì.</li>
-        <li><strong>Thư giãn cơ bắp:</strong> Pha 5 giọt Lavender vào bồn tắm nước ấm ngâm mình 15 phút.</li>
+        <li><strong>Liệu pháp gối ngủ êm ái:</strong> Nhỏ 1 giọt Lavender lên góc gối ngủ 15 phút trước khi nằm, hương thơm phảng phất sẽ đưa bạn vào giấc ngủ sinh học tự nhiên.</li>
+        <li><strong>Ngâm bồn tắm giải tỏa mệt mỏi:</strong> Pha 5 giọt Lavender cùng 1 chén muối Epsom vào bồn nước ấm, ngâm mình 15-20 phút sau một ngày dài áp lực.</li>
       </ul>
     `
   }
